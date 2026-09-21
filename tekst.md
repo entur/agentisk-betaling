@@ -251,10 +251,10 @@ Om dere er interessert: en forpliktelse til å få dette til, og enighet om nest
 Norge har to ting få markeder har: BankID som et signeringsrail myndighetene allerede stoler på, og en nøytral nasjonal infrastruktur for kollektivtransport. Skal en agent kunne kjøpe en norsk kollektivbillett på en måte som holder juridisk, må begge deler spille sammen med betalingsleddet. **Det får ikke Entur til alene og vi tror det beste første steget er med Vipps.**
 
 <!-- @neste.12 . boks-tittel -->
-Mer detaljer, dersom dere er interessert
+Mer detaljert gjennomgang
 
 <!-- @neste.13 . boks-undertekst -->
-Salgsflyten, grensesnittet mot betalingsleddet, og landskapet vi har kartlagt. Rundt 19 minutter å lese.
+Salgsflyt, grensesnitt mot betalingsleddet og landskapet slik vi ser det.
 
 <!-- @neste.14 . boks-vis -->
 Vis underlaget ↓
