@@ -300,7 +300,7 @@ Salgsflyten er en tilstandsmaskin med tre tidsvinduer, og mandatbetalingen koble
 ## Salgsflyten i Entur Sales API
 
 <!-- @salgsflyt.02 . p -->
-Sales API er åtte tjenester som dekker hele salget. Ryggraden agenten følger, er en kjede med tre faste tidsvinduer. Det uthevede steget er der mandatbetalingen kobler seg på.
+Entur Sales API håndterer hele salget, fra reisen blir søkt opp til billetten er levert. Agenten følger stegene i fast rekkefølge, og betalingen er ett av dem. Det uthevede steget er der mandatbetalingen kobler seg på.
 
 <!-- @salgsflyt.03 . div.n -->
 01
