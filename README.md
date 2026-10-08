@@ -13,6 +13,7 @@ tredjepartsagent, på infrastrukturen Entur og Vipps MobilePay allerede har mell
 |---|---|
 | `index.html` | Selve notatet, publisert som nettside |
 | `tekst.md` | All tekst fra notatet, med ankre tilbake til HTML-en. Rediger her, flett inn etterpå |
+| `brukerflyt/` | Førsteutkast til brukerflyten for demoen, med én side per use-case. Se `brukerflyt/STATUS.md` |
 
 Notatet er delt i to. Første del er ment lest før møtet og tar rundt ni minutter.
 Resten ligger bak en sammenleggbar boks som underlag.

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agentisk billettkjøp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;--bg-tint:#f6f6f9;--bg-subtle:#eaeaf1;
+    --brand:#292b6a;--brand-alt:#393d79;--brand-soft:#54568c;
+    --accent:#f73e3b;--accent-soft:#ffe5e5;
+    --canary:#ffca28;--canary-soft:#fff4cd;--canary-ink:#775b09;
+    --ink:#08091c;--ink-soft:#212233;--muted:#6e6f73;--subtle:#949699;
+    --border:#e3e6e8;
+    --font-body:"Inter","Helvetica Neue",Arial,system-ui,sans-serif;--font-mono:"DM Mono",ui-monospace,monospace;
+    --radius-md:4px;--radius-full:999px;--maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink-soft);font-family:var(--font-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:var(--font-body);font-weight:700;letter-spacing:-.015em;line-height:1.1;color:var(--brand)}
+  h2{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 .4em}
+  h3{font-size:1.2rem;margin:0 0 .4em;font-weight:600;letter-spacing:0;color:var(--ink)}
+  p{margin:0 0 1rem;max-width:64ch}
+  section{padding:64px 0;border-top:1px solid var(--border)}
+  .lead{font-size:1.125rem;color:var(--muted);max-width:62ch}
+  .hero{background:var(--brand);color:#fff;border-top:none;padding:0}
+  .hero .inner{padding:96px 24px 80px;max-width:var(--maxw);margin:0 auto}
+  .hero h1{color:#fff;font-size:clamp(2.3rem,6vw,3.6rem);max-width:20ch;margin:0 0 .35em}
+  .hero .sub{font-size:1.18rem;max-width:58ch;color:rgba(255,255,255,.86)}
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+  .jump a{font-family:var(--font-mono);font-size:.76rem;border:1px solid rgba(255,255,255,.28);border-radius:var(--radius-full);padding:6px 13px;color:#fff;background:rgba(255,255,255,.06);text-decoration:none}
+  .jump a:hover{background:rgba(255,255,255,.14)}
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:620px){.g2,.g4{grid-template-columns:1fr}}
+  .card{background:var(--bg-tint);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
+  .card .tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.04em;color:var(--accent);display:inline-block;margin-bottom:10px}
+  .card p{font-size:.95rem;color:var(--muted);margin:0}
+  .card.trip h3{font-size:1.35rem;color:var(--brand)}
+  .legs{list-style:none;padding:0;margin:12px 0 0}
+  .legs li{font-size:.95rem;padding:8px 0;border-top:1px solid var(--border);color:var(--ink-soft)}
+  .legs li span{font-family:var(--font-mono);font-size:.75rem;color:var(--brand-soft);display:inline-block;min-width:64px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+  .chip{font-family:var(--font-mono);font-size:.74rem;padding:5px 11px;border-radius:var(--radius-full);border:1px solid var(--border);background:var(--bg-tint);color:var(--brand)}
+  .chip.new{border-color:var(--accent);color:var(--accent);background:#fff}
+  .diagram{position:relative;left:50%;transform:translateX(-50%);width:min(1440px,calc(100vw - 32px));border:1px solid var(--border);border-radius:var(--radius-md);background:#fff;padding:24px;overflow-x:auto}
+  .diagram pre.mermaid{margin:0;min-width:900px;font-family:var(--font-body)}
+  .diagram pre.mermaid svg{max-width:100%;height:auto}
+  .note{font-size:.88rem;color:var(--muted);margin-top:12px}
+  ul.open{list-style:none;padding:0;margin:0;max-width:74ch}
+  ul.open li{position:relative;padding:14px 0 14px 30px;border-bottom:1px solid var(--border)}
+  ul.open li::before{content:"";position:absolute;left:0;top:22px;width:9px;height:9px;background:var(--canary);border-radius:2px}
+  ul.open li b{color:var(--brand)}
+  details{margin-top:18px}
+  summary{font-family:var(--font-mono);font-size:.8rem;color:var(--brand-soft);cursor:pointer}
+  details pre{background:var(--bg-tint);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;font-family:var(--font-mono);font-size:.78rem;overflow-x:auto;white-space:pre}
+  @media(max-width:620px){section{padding:44px 0}.hero .inner{padding:64px 16px 52px}.wrap{padding:0 16px}}
+  a.card{display:block;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+  a.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .more{font-family:var(--font-mono);font-size:.76rem;color:var(--accent);margin-top:14px;display:inline-block}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>Agentisk billettkjøp</h1>
+    <p class="sub">Førsteutkast til brukerflyten for demoen: en agent i ChatGPT finner, reserverer og betaler to reiser for brukeren, med Vipps som betaling og brukeren som bekrefter før kjøpet.</p>
+    <div class="jump">
+      <a href="#scenario">Scenario</a>
+      <a href="#flyt">Flyten</a>
+      <a href="#steg">Stegene</a>
+      <a href="#apent">Åpne spørsmål</a>
+    </div>
+  </div>
+</header>
+
+<section id="scenario">
+  <div class="wrap">
+    <h2>Scenario</h2>
+    <p class="lead">Brukeren ber om to reiser i én beskjed. Den ene krever setereservasjon, den andre en overgang mellom tog og buss. Det er her en agent gjør mer enn et vanlig billettkjøp. Hver reise kan også leses som et eget use-case.</p>
+    <div class="grid g2">
+      <a class="card trip" href="bergen.html">
+        <span class="tag">REISE 1 · TOG MED SETE</span>
+        <h3>Oslo S til Bergen</h3>
+        <ul class="legs">
+          <li><span>Torsdag</span>Tog Oslo S til Bergen</li>
+          <li><span>Sete</span>Vindusplass reserveres i samme kjøp</li>
+        </ul>
+        <span class="more">Les use-caset →</span>
+      </a>
+      <a class="card trip" href="lillehammer.html">
+        <span class="tag">REISE 2 · TOG OG BUSS</span>
+        <h3>Oslo S til Lillehammer</h3>
+        <ul class="legs">
+          <li><span>Lørdag</span>Tog Oslo S til Lillehammer stasjon</li>
+          <li><span>Overgang</span>Lokalbuss videre til bestemmelsesstedet</li>
+        </ul>
+        <span class="more">Les use-caset →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="flyt">
+  <div class="wrap">
+    <h2>Flyten</h2>
+    <p class="lead">Fra beskjed til billett i fire steg. Reisesøket finnes allerede. Salgslaget er det som må bygges, og betalingen går gjennom eksisterende Vipps-integrasjon.</p>
+    <div class="legend">
+      <span class="chip">Reisesøk-MCP · finnes</span>
+      <span class="chip new">Salgs-MCP · må bygges</span>
+      <span class="chip">Sales API · finnes, krever avtale</span>
+      <span class="chip">Vipps ePayment · finnes</span>
+    </div>
+    <div class="diagram">
+<pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor B as Bruker
+    participant A as Agent (ChatGPT)
+    participant R as Entur reisesøk-MCP (finnes)
+    participant S as Entur salgs-MCP (må bygges)
+    participant API as Entur Sales API
+    participant V as Vipps MobilePay
+
+    Note over B,R: 1. Intensjon og reisesøk
+    B->>A: Tog til Bergen torsdag med vindusplass.<br/>Lillehammer lørdag, med lokalbuss videre
+    A->>R: Søk Oslo til Bergen
+    R-->>A: Avganger
+    A->>R: Søk Oslo til Lillehammer, tog og buss
+    R-->>A: Avganger med overgang
+    A-->>B: Foreslår én reiserute per tur
+    B->>A: Velger avganger
+
+    Note over A,API: 2. Tilbud og reservasjon
+    A->>S: Hent tilbud for begge reisene
+    S->>API: Søk tilbud
+    API-->>S: Tilbud, gyldige i 30 min
+    S-->>A: Priser og setevalg
+    A->>S: Reserver begge reisene med vindusplass
+    S->>API: Opprett ordre, reserver tilbud og sete
+    API-->>S: Ordre reservert med totalbeløp
+    S-->>A: Ordresammendrag
+
+    Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
+    A-->>B: Sammendrag av reiser, sete og totalpris. Bekrefte?
+    B->>A: Bekrefter
+    A->>S: Betal ordre
+    alt Brukeren har Vipps-avtale med Entur
+        S->>API: Belast avtale
+        API->>V: Trekk innenfor avtalens tak
+        V-->>API: Belastet
+    else Ingen avtale
+        S->>API: Start betaling med telefonnummer
+        API->>V: Send push-betaling
+        V->>B: Godkjenn i Vipps-appen
+        B->>V: Godkjenner
+        V-->>API: Autorisert
+    end
+    API-->>S: Betaling bekreftet
+
+    Note over B,API: 4. Billetter
+    API-->>S: Billetter utstedt
+    S-->>A: Billettreferanser
+    A-->>B: Billetter, setenummer og detaljer om overgangen
+</pre>
+    </div>
+    <p class="note">Denne flyten viser begge reisene i ett kjøp. Diagrammet er skrevet i Mermaid og kan redigeres direkte. Kilden ligger nederst på siden.</p>
+  </div>
+</section>
+
+<section id="steg">
+  <div class="wrap">
+    <h2>Stegene</h2>
+    <div class="grid g4">
+      <div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren beskriver reisene med egne ord. Agenten finner avganger og overgangen til buss gjennom reisesøk-MCP-en, og foreslår én rute per reise.</p></div>
+      <div class="card"><span class="tag">2 · RESERVASJON</span><h3>Tilbud og sete</h3><p>Agenten henter tilbud og reserverer begge reisene med vindusplass i én ordre. Tilbudene er gyldige i 30 minutter.</p></div>
+      <div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser reiser, sete og totalpris og bekrefter. Har brukeren en Vipps-avtale med Entur, trekkes beløpet der. Ellers godkjennes en push-betaling i Vipps-appen.</p></div>
+      <div class="card"><span class="tag">4 · BILLETTER</span><h3>Levering</h3><p>Billettene utstedes, og agenten gir brukeren setenummer og detaljer om overgangen fra tog til buss.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="apent">
+  <div class="wrap">
+    <h2>Åpne spørsmål</h2>
+    <p class="lead">Tegningen bygger på noen forutsetninger vi må avklare før demoen.</p>
+    <ul class="open">
+      <li><b>Én ordre for begge reisene.</b> Tillater Sales API at tog og lokalbuss fra ulike operatører selges og betales samlet?</li>
+      <li><b>Valg av vindusplass.</b> Kan brukeren be om vindusplass gjennom salgsflyten, eller får man bare et tildelt sete?</li>
+      <li><b>Bekreftelse ved avtale.</b> Holder det at brukeren bekrefter i chatten når pengene trekkes fra en eksisterende avtale, eller må det også bekreftes i Vipps-appen?</li>
+      <li><b>Hvem er brukeren.</b> Er telefonnummer nok til å knytte kjøpet i ChatGPT til riktig Vipps-bruker og eventuell avtale?</li>
+      <li><b>Hvor betalingen kalles fra.</b> Her går betalingen gjennom Enturs Sales API. Alternativet er en egen Vipps-MCP som agenten kaller direkte.</li>
+    </ul>
+    <details>
+      <summary>Mermaid-kilde</summary>
+      <pre>sequenceDiagram
+    autonumber
+    actor B as Bruker
+    participant A as Agent (ChatGPT)
+    participant R as Entur reisesøk-MCP (finnes)
+    participant S as Entur salgs-MCP (må bygges)
+    participant API as Entur Sales API
+    participant V as Vipps MobilePay
+
+    Note over B,R: 1. Intensjon og reisesøk
+    B-&gt;&gt;A: Tog til Bergen torsdag med vindusplass.&lt;br/&gt;Lillehammer lørdag, med lokalbuss videre
+    A-&gt;&gt;R: Søk Oslo til Bergen
+    R--&gt;&gt;A: Avganger
+    A-&gt;&gt;R: Søk Oslo til Lillehammer, tog og buss
+    R--&gt;&gt;A: Avganger med overgang
+    A--&gt;&gt;B: Foreslår én reiserute per tur
+    B-&gt;&gt;A: Velger avganger
+
+    Note over A,API: 2. Tilbud og reservasjon
+    A-&gt;&gt;S: Hent tilbud for begge reisene
+    S-&gt;&gt;API: Søk tilbud
+    API--&gt;&gt;S: Tilbud, gyldige i 30 min
+    S--&gt;&gt;A: Priser og setevalg
+    A-&gt;&gt;S: Reserver begge reisene med vindusplass
+    S-&gt;&gt;API: Opprett ordre, reserver tilbud og sete
+    API--&gt;&gt;S: Ordre reservert med totalbeløp
+    S--&gt;&gt;A: Ordresammendrag
+
+    Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
+    A--&gt;&gt;B: Sammendrag av reiser, sete og totalpris. Bekrefte?
+    B-&gt;&gt;A: Bekrefter
+    A-&gt;&gt;S: Betal ordre
+    alt Brukeren har Vipps-avtale med Entur
+        S-&gt;&gt;API: Belast avtale
+        API-&gt;&gt;V: Trekk innenfor avtalens tak
+        V--&gt;&gt;API: Belastet
+    else Ingen avtale
+        S-&gt;&gt;API: Start betaling med telefonnummer
+        API-&gt;&gt;V: Send push-betaling
+        V-&gt;&gt;B: Godkjenn i Vipps-appen
+        B-&gt;&gt;V: Godkjenner
+        V--&gt;&gt;API: Autorisert
+    end
+    API--&gt;&gt;S: Betaling bekreftet
+
+    Note over B,API: 4. Billetter
+    API--&gt;&gt;S: Billetter utstedt
+    S--&gt;&gt;A: Billettreferanser
+    A--&gt;&gt;B: Billetter, setenummer og detaljer om overgangen
+</pre>
+    </details>
+  </div>
+</section>
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:"base",
+    fontFamily:"Inter, Helvetica Neue, Arial, sans-serif",
+    themeVariables:{
+      fontFamily:"Inter, Helvetica Neue, Arial, sans-serif",
+      primaryColor:"#f6f6f9",primaryBorderColor:"#292b6a",primaryTextColor:"#08091c",
+      actorBkg:"#f6f6f9",actorBorder:"#292b6a",actorTextColor:"#292b6a",actorLineColor:"#949699",
+      signalColor:"#292b6a",signalTextColor:"#212233",
+      noteBkgColor:"#fff4cd",noteBorderColor:"#ffca28",noteTextColor:"#775b09",
+      labelBoxBkgColor:"#ffe5e5",labelBoxBorderColor:"#f73e3b",labelTextColor:"#292b6a",
+      loopTextColor:"#292b6a",sequenceNumberColor:"#ffffff",activationBkgColor:"#eaeaf1"
+    },
+    sequence:{mirrorActors:false,useMaxWidth:true,messageFontSize:16,actorFontSize:15,noteFontSize:15,actorMargin:40}
+  });
+</script>
+</body>
+</html>

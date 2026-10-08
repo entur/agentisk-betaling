@@ -1,0 +1,49 @@
+sequenceDiagram
+    autonumber
+    actor B as Bruker
+    participant A as Agent (ChatGPT)
+    participant R as Entur reisesøk-MCP (finnes)
+    participant S as Entur salgs-MCP (må bygges)
+    participant API as Entur Sales API
+    participant V as Vipps MobilePay
+
+    Note over B,R: 1. Intensjon og reisesøk
+    B->>A: Tog til Bergen torsdag med vindusplass.<br/>Lillehammer lørdag, med lokalbuss videre
+    A->>R: Søk Oslo til Bergen
+    R-->>A: Avganger
+    A->>R: Søk Oslo til Lillehammer, tog og buss
+    R-->>A: Avganger med overgang
+    A-->>B: Foreslår én reiserute per tur
+    B->>A: Velger avganger
+
+    Note over A,API: 2. Tilbud og reservasjon
+    A->>S: Hent tilbud for begge reisene
+    S->>API: Søk tilbud
+    API-->>S: Tilbud, gyldige i 30 min
+    S-->>A: Priser og setevalg
+    A->>S: Reserver begge reisene med vindusplass
+    S->>API: Opprett ordre, reserver tilbud og sete
+    API-->>S: Ordre reservert med totalbeløp
+    S-->>A: Ordresammendrag
+
+    Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
+    A-->>B: Sammendrag av reiser, sete og totalpris. Bekrefte?
+    B->>A: Bekrefter
+    A->>S: Betal ordre
+    alt Brukeren har Vipps-avtale med Entur
+        S->>API: Belast avtale
+        API->>V: Trekk innenfor avtalens tak
+        V-->>API: Belastet
+    else Ingen avtale
+        S->>API: Start betaling med telefonnummer
+        API->>V: Send push-betaling
+        V->>B: Godkjenn i Vipps-appen
+        B->>V: Godkjenner
+        V-->>API: Autorisert
+    end
+    API-->>S: Betaling bekreftet
+
+    Note over B,API: 4. Billetter
+    API-->>S: Billetter utstedt
+    S-->>A: Billettreferanser
+    A-->>B: Billetter, setenummer og detaljer om overgangen
