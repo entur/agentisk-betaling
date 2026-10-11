@@ -65,12 +65,15 @@
   a.card{display:block;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
   a.card:hover{border-color:var(--accent);transform:translateY(-1px)}
   .more{font-family:var(--font-mono);font-size:.76rem;color:var(--accent);margin-top:14px;display:inline-block}
+  .crumb{font-family:var(--font-mono);font-size:.76rem;color:rgba(255,255,255,.7);text-decoration:none;display:inline-block;margin-bottom:28px}
+  .crumb:hover{color:#fff}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="inner">
+    <a class="crumb" href="../">← Agentisk betaling</a>
     <h1>Agentisk billettkjøp</h1>
     <p class="sub">Førsteutkast til brukerflyten for demoen: en agent i ChatGPT finner, reserverer og betaler to reiser for brukeren, med Vipps som betaling og brukeren som bekrefter før kjøpet.</p>
     <div class="jump">
