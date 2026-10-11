@@ -8,15 +8,15 @@ sequenceDiagram
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
-    B->>A: Jeg skal til Håkons Hall i Lillehammer lørdag<br/>og må være der før kl. 12
-    A->>R: Søk Oslo S til Håkons Hall, ankomst før 12
+    B->>A: Jeg skal til Bjørnstjerne Bjørnsons hjem på Aulestad<br/>lørdag og må være der før kl. 12. Honnørbillett
+    A->>R: Søk Oslo S til Aulestadvegen 6 i Gausdal,<br/>ankomst før 12
     R-->>A: Reiseforslag med tog og buss
-    A-->>B: Foreslår tog til Lillehammer stasjon<br/>og buss videre, med overgangstid
+    A-->>B: Foreslår tog til Lillehammer<br/>og buss videre til Aulestad, med overgangstid
     B->>A: Velger reiseforslag
 
     Note over A,API: 2. Tilbud for begge etappene
     A->>S: Hent tilbud for hele reisen
-    S->>API: Søk tilbud for tog og buss
+    S->>API: Søk honnørtilbud for tog og buss
     API-->>S: Tilbud for hver etappe, gyldige i 30 min
     S-->>A: Pris per etappe og totalpris
     A->>S: Reserver begge etappene
@@ -25,7 +25,7 @@ sequenceDiagram
     S-->>A: Ordresammendrag
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
-    A-->>B: Tog, buss, overgangstid og totalpris. Bekrefte?
+    A-->>B: Tog, buss, overgangstid og honnørpris. Bekrefte?
     B->>A: Bekrefter
     A->>S: Betal ordre
     alt Brukeren har Vipps-avtale med Entur
@@ -42,6 +42,6 @@ sequenceDiagram
     API-->>S: Betaling bekreftet
 
     Note over B,API: 4. Billetter og overgang
-    API-->>S: Billetter utstedt for tog og buss
+    API-->>S: Honnørbilletter utstedt for tog og buss
     S-->>A: Billettreferanser
     A-->>B: Billetter, hvor bussen går fra<br/>og hvor lang tid overgangen har

@@ -8,10 +8,10 @@ sequenceDiagram
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
-    B->>A: Tog til Bergen torsdag med vindusplass.<br/>Lillehammer lørdag, med lokalbuss videre
+    B->>A: Tog til Bergen torsdag, vindusplass i kjøreretningen.<br/>Aulestad lørdag med tog og buss, honnør
     A->>R: Søk Oslo til Bergen
     R-->>A: Avganger
-    A->>R: Søk Oslo til Lillehammer, tog og buss
+    A->>R: Søk Oslo S til Aulestadvegen 6 i Gausdal, tog og buss
     R-->>A: Avganger med overgang
     A-->>B: Foreslår én reiserute per tur
     B->>A: Velger avganger
@@ -21,7 +21,7 @@ sequenceDiagram
     S->>API: Søk tilbud
     API-->>S: Tilbud, gyldige i 30 min
     S-->>A: Priser og setevalg
-    A->>S: Reserver begge reisene med vindusplass
+    A->>S: Reserver begge reisene, med vindusplass<br/>i kjøreretningen til Bergen
     S->>API: Opprett ordre, reserver tilbud og sete
     API-->>S: Ordre reservert med totalbeløp
     S-->>A: Ordresammendrag

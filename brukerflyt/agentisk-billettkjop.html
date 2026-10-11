@@ -92,16 +92,17 @@
         <h3>Oslo S til Bergen</h3>
         <ul class="legs">
           <li><span>Torsdag</span>Tog Oslo S til Bergen</li>
-          <li><span>Sete</span>Vindusplass reserveres i samme kjøp</li>
+          <li><span>Sete</span>Vindusplass i kjøreretningen, reservert i samme kjøp</li>
         </ul>
         <span class="more">Les use-caset →</span>
       </a>
       <a class="card trip" href="lillehammer.html">
         <span class="tag">REISE 2 · TOG OG BUSS</span>
-        <h3>Oslo S til Lillehammer</h3>
+        <h3>Oslo S til Aulestad</h3>
         <ul class="legs">
           <li><span>Lørdag</span>Tog Oslo S til Lillehammer stasjon</li>
-          <li><span>Overgang</span>Lokalbuss videre til bestemmelsesstedet</li>
+          <li><span>Overgang</span>Buss videre til Aulestad i Gausdal</li>
+          <li><span>Billett</span>Honnør på begge etappene</li>
         </ul>
         <span class="more">Les use-caset →</span>
       </a>
@@ -131,10 +132,10 @@ sequenceDiagram
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
-    B->>A: Tog til Bergen torsdag med vindusplass.<br/>Lillehammer lørdag, med lokalbuss videre
+    B->>A: Tog til Bergen torsdag, vindusplass i kjøreretningen.<br/>Aulestad lørdag med tog og buss, honnør
     A->>R: Søk Oslo til Bergen
     R-->>A: Avganger
-    A->>R: Søk Oslo til Lillehammer, tog og buss
+    A->>R: Søk Oslo S til Aulestadvegen 6 i Gausdal, tog og buss
     R-->>A: Avganger med overgang
     A-->>B: Foreslår én reiserute per tur
     B->>A: Velger avganger
@@ -144,7 +145,7 @@ sequenceDiagram
     S->>API: Søk tilbud
     API-->>S: Tilbud, gyldige i 30 min
     S-->>A: Priser og setevalg
-    A->>S: Reserver begge reisene med vindusplass
+    A->>S: Reserver begge reisene, med vindusplass<br/>i kjøreretningen til Bergen
     S->>API: Opprett ordre, reserver tilbud og sete
     API-->>S: Ordre reservert med totalbeløp
     S-->>A: Ordresammendrag
@@ -181,7 +182,7 @@ sequenceDiagram
     <h2>Stegene</h2>
     <div class="grid g4">
       <div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren beskriver reisene med egne ord. Agenten finner avganger og overgangen til buss gjennom reisesøk-MCP-en, og foreslår én rute per reise.</p></div>
-      <div class="card"><span class="tag">2 · RESERVASJON</span><h3>Tilbud og sete</h3><p>Agenten henter tilbud og reserverer begge reisene med vindusplass i én ordre. Tilbudene er gyldige i 30 minutter.</p></div>
+      <div class="card"><span class="tag">2 · RESERVASJON</span><h3>Tilbud og sete</h3><p>Agenten henter tilbud og reserverer begge reisene i én ordre, med vindusplass i kjøreretningen til Bergen og honnørbillett til Aulestad. Tilbudene er gyldige i 30 minutter.</p></div>
       <div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser reiser, sete og totalpris og bekrefter. Har brukeren en Vipps-avtale med Entur, trekkes beløpet der. Ellers godkjennes en push-betaling i Vipps-appen.</p></div>
       <div class="card"><span class="tag">4 · BILLETTER</span><h3>Levering</h3><p>Billettene utstedes, og agenten gir brukeren setenummer og detaljer om overgangen fra tog til buss.</p></div>
     </div>
@@ -194,7 +195,7 @@ sequenceDiagram
     <p class="lead">Tegningen bygger på noen forutsetninger vi må avklare før demoen.</p>
     <ul class="open">
       <li><b>Én ordre for begge reisene.</b> Tillater Sales API at tog og lokalbuss fra ulike operatører selges og betales samlet?</li>
-      <li><b>Valg av vindusplass.</b> Kan brukeren be om vindusplass gjennom salgsflyten, eller får man bare et tildelt sete?</li>
+      <li><b>Valg av vindusplass.</b> Kan brukeren be om vindusplass i kjøreretningen gjennom salgsflyten, eller får man bare et tildelt sete?</li>
       <li><b>Bekreftelse ved avtale.</b> Holder det at brukeren bekrefter i chatten når pengene trekkes fra en eksisterende avtale, eller må det også bekreftes i Vipps-appen?</li>
       <li><b>Hvem er brukeren.</b> Er telefonnummer nok til å knytte kjøpet i ChatGPT til riktig Vipps-bruker og eventuell avtale?</li>
       <li><b>Hvor betalingen kalles fra.</b> Her går betalingen gjennom Enturs Sales API. Alternativet er en egen Vipps-MCP som agenten kaller direkte.</li>
@@ -211,10 +212,10 @@ sequenceDiagram
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
-    B-&gt;&gt;A: Tog til Bergen torsdag med vindusplass.&lt;br/&gt;Lillehammer lørdag, med lokalbuss videre
+    B-&gt;&gt;A: Tog til Bergen torsdag, vindusplass i kjøreretningen.&lt;br/&gt;Aulestad lørdag med tog og buss, honnør
     A-&gt;&gt;R: Søk Oslo til Bergen
     R--&gt;&gt;A: Avganger
-    A-&gt;&gt;R: Søk Oslo til Lillehammer, tog og buss
+    A-&gt;&gt;R: Søk Oslo S til Aulestadvegen 6 i Gausdal, tog og buss
     R--&gt;&gt;A: Avganger med overgang
     A--&gt;&gt;B: Foreslår én reiserute per tur
     B-&gt;&gt;A: Velger avganger
@@ -224,7 +225,7 @@ sequenceDiagram
     S-&gt;&gt;API: Søk tilbud
     API--&gt;&gt;S: Tilbud, gyldige i 30 min
     S--&gt;&gt;A: Priser og setevalg
-    A-&gt;&gt;S: Reserver begge reisene med vindusplass
+    A-&gt;&gt;S: Reserver begge reisene, med vindusplass<br/>i kjøreretningen til Bergen
     S-&gt;&gt;API: Opprett ordre, reserver tilbud og sete
     API--&gt;&gt;S: Ordre reservert med totalbeløp
     S--&gt;&gt;A: Ordresammendrag

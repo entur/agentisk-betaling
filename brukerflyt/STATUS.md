@@ -7,8 +7,8 @@ Førsteutkast til brukerflyten for demoen med Vipps MobilePay. Agenten kjøper b
 | Fil | Hva det er |
 |---|---|
 | `agentisk-billettkjop.html` | Oversikt med begge reisene i ett kjøp, og lenker til hvert use-case |
-| `bergen.html` | Use-case 1: tog Oslo S til Bergen med vindusplass |
-| `lillehammer.html` | Use-case 2: tog og lokalbuss Oslo S til Håkons Hall |
+| `bergen.html` | Use-case 1: tog Oslo S til Bergen med vindusplass i kjøreretningen |
+| `lillehammer.html` | Use-case 2: tog og buss Oslo S til Aulestad i Gausdal, honnørbillett |
 | `*.mmd` | Mermaid-kilden til hvert diagram. Sidene har samme kode innebygd |
 | `chatgpt-flyt.png` | Oversiktsdiagrammet som bilde, til deling i Slack |
 
@@ -30,8 +30,8 @@ npx -y @mermaid-js/mermaid-cli@11.4.2 -i chatgpt-flyt.mmd -o chatgpt-flyt.png -s
 ## Åpne spørsmål
 
 - Kan tog og buss fra ulike operatører selges og betales i samme ordre?
-- Kan brukeren be om vindusplass gjennom salgsflyten, og er setereservasjonen et eget tilleggsprodukt?
-- Hvilken bussbillett selges i Lillehammer, og hva skjer med den hvis toget er forsinket?
+- Kan brukeren be om vindusplass i kjøreretningen gjennom salgsflyten, og er setereservasjonen et eget tilleggsprodukt?
+- Hvilken bussbillett selges mellom Lillehammer og Aulestad, og hva skjer med den hvis toget er forsinket?
 - Holder bekreftelse i chatten når beløpet trekkes fra en eksisterende Vipps-avtale?
 - Er telefonnummer nok til å identifisere brukeren når kjøpet starter i ChatGPT?
 - Skal betalingen gå gjennom Sales API eller gjennom en egen Vipps-MCP?

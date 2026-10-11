@@ -8,7 +8,7 @@ sequenceDiagram
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
-    B->>A: Jeg skal til Bergen torsdag formiddag.<br/>Fiks tog med vindusplass
+    B->>A: Jeg skal til Bergen torsdag formiddag.<br/>Fiks tog med vindusplass i kjøreretningen
     A->>R: Søk Oslo S til Bergen, torsdag formiddag
     R-->>A: Avganger og reisetid
     A-->>B: Foreslår to avganger
@@ -19,7 +19,7 @@ sequenceDiagram
     S->>API: Søk tilbud med setereservasjon
     API-->>S: Tilbud, gyldige i 30 min
     S-->>A: Pris, billettype og setevalg
-    A->>S: Reserver tilbud med vindusplass
+    A->>S: Reserver tilbud med vindusplass i kjøreretningen
     S->>API: Opprett ordre, reserver tilbud og sete
     API-->>S: Ordre reservert med vogn, sete og totalbeløp
     S-->>A: Ordresammendrag
