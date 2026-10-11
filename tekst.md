@@ -72,7 +72,7 @@ Et gjennomført kjøp via en tredjepartsagent før jul, med ekte billett og ekte
 FORESLÅTT CASE
 
 <!-- @hensikt.08 . div.v -->
-To reiser som demonstrerer hvor en agent kan brillere. **{{lenke:Billett med setereservasjon til Bergen>brukerflyt/bergen.html}}:** et produkt med beholdning, der reservasjonen må holdes mens betalingen går. **{{lenke:Togbillett til Lillehammer med overgang til lokal buss>brukerflyt/lillehammer.html}}:** to operatører, to tariffeiere, ett kjøp og én belastning.
+To reiser som demonstrerer hvor en agent kan brillere. **{{lenke:Billett med setereservasjon til Bergen>brukerflyt/bergen.html}}:** et produkt med beholdning, der reservasjonen må holdes mens betalingen går. **{{lenke:Honnørbillett med tog og buss til Aulestad i Gausdal>brukerflyt/lillehammer.html}}:** to operatører, to tariffeiere, ett kjøp og én belastning.
 
 <!-- @hensikt.09 . div.k -->
 TEKNISK HYPOTESE
