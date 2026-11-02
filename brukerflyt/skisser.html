@@ -434,12 +434,14 @@
               <div class="hint">Ordre 3N7URR0X</div>
             </div>
           </div>
-          <div class="a">Betalingen gikk gjennom, og billettene er utstedt. På Lillehammer har du 16 minutter: bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
+          <div class="a">Betalingen gikk gjennom, og billettene er utstedt.</div>
+          <div class="a">Billettene er sendt til e-posten din og ligger klar i Entur-appen. Reisen står i kalenderen din, med en påminnelse før avreise.</div>
+          <div class="a">På Lillehammer har du 16 minutter. Bussen går fra skysstasjonen, to minutter å gå fra toget.</div>
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt. Om billettene vises i Entur-appen når de er solgt gjennom salgs-MCP-en, er ikke avklart.</p>
-        <div class="tools"><span class="tool">get_order</span></div></div>
+      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter, e-post og kalender</b><p>Billettene sendes på e-post og ligger i Entur-appen. Agenten legger reisen i kalenderen med en påminnelse.</p>
+        <div class="tools"><span class="tool">get_order</span><span class="tool ext">kalender</span></div></div>
     </div>
 
   </div></div></div>
@@ -561,12 +563,14 @@
             <div class="row" style="margin-top:6px"><span>08:02</span><span>10:15</span><span>10:37</span></div>
             <div class="hint">Honnør på begge etappene · ordre 3N7URR0X</div>
           </div>
-          <div class="a">Billettene er klare. På Lillehammer har du 16 minutter. Bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
+          <div class="a">Billettene er klare.</div>
+          <div class="a">Billettene er sendt til e-posten din og ligger klar i Entur-appen. Reisen står i kalenderen din, med en påminnelse før avreise.</div>
+          <div class="a">På Lillehammer har du 16 minutter. Bussen går fra skysstasjonen, to minutter å gå fra toget.</div>
         </div>
         <div class="compose">Spør reiseagenten</div>
       </div>
-      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
-        <div class="tools"><span class="tool">get_order</span></div></div>
+      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter, e-post og kalender</b><p>Billettene sendes på e-post og ligger i Entur-appen. Agenten legger reisen i kalenderen med en påminnelse.</p>
+        <div class="tools"><span class="tool">get_order</span><span class="tool ext">kalender</span></div></div>
     </div>
 
   </div></div></div>
@@ -585,7 +589,9 @@
       <li>Hvor viser brukeren frem billetten etter et kjøp i Vipps: i Vipps, i Entur-appen eller som lenke?</li>
       <li>Kan Vipps' kjøpsassistent åpne betalingen direkte i appen, eller må den også gå via lenken?</li>
       <li>Hvem eier kjøpet når det starter i Vipps: Entur-kontoen til brukeren, eller ingen konto?</li>
-      <li>Viser Entur-appen billetter som er solgt gjennom salgs-MCP-en? Hvis ikke, har brukeren ingenting å vise frem om bord.</li>
+      <li>Viser Entur-appen billetter som er solgt gjennom salgs-MCP-en? Skissene forutsetter det. Hvis ikke, har brukeren ingenting å vise frem om bord.</li>
+      <li>Hvordan havner reisen i kalenderen: gjennom en kalenderkobling hos agenten, eller som en kalenderfil i e-posten med billetten?</li>
+      <li>Reiseagenten har ingen innlogging i skissen. Hvor får salgs-MCP-en e-postadressen fra?</li>
       <li>Godtar OpenAI billettsalg i en publisert plugin? Retningslinjene tillater i dag bare handel med fysiske varer, og Entur mener en billett hører til der.</li>
       <li>Må betalingslenken i ChatGPT gå via en side hos Entur før Vipps, slik OpenAI beskriver betaling utenfor ChatGPT?</li>
       <li>Honnør på bussen: har operatøren en honnørprofil? Hvis ikke, viser salgs-MCP-en voksenpris for den etappen, og agenten må si fra.</li>
