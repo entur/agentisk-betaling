@@ -44,4 +44,4 @@ Diagrammene i `*.mmd` er eldre enn salgs-MCP-en. De viser trekk fra Vipps-avtale
 
 ## Merk
 
-Grenen er ikke flettet inn i `main`. Repoet er offentlig, og GitHub Pages publiserer `main` til entur.github.io/agentisk-betaling. Flett inn først når sidene skal deles.
+Repoet er offentlig, og GitHub Pages publiserer `main` til entur.github.io/agentisk-betaling. Grenen `feat/brukerflyt-skisser` flettes inn først når skissene skal deles.
