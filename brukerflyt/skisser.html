@@ -294,8 +294,8 @@
 <!-- ============================ CHATGPT ============================ -->
 <section id="chatgpt">
   <div class="wrap">
-    <h2>2. ChatGPT med Entur-appen</h2>
-    <p class="lead">Brukeren chatter i ChatGPT og har lagt til Enturs app. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skjermene følger ChatGPT-appen på iPhone.</p>
+    <h2>2. ChatGPT med Entur koblet til</h2>
+    <p class="lead">Brukeren chatter i ChatGPT og har koblet til Entur. Første versjon er en testkobling som egen MCP-server, ikke en publisert plugin. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skjermene følger ChatGPT-appen på iPhone.</p>
   </div>
   <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="chatgpt">
 
@@ -317,7 +317,7 @@
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Reisesøk gjennom Entur-appen</b><p>Søket trenger ingen innlogging.</p>
+      <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Reisesøk gjennom Entur i ChatGPT</b><p>Søket trenger ingen innlogging.</p>
         <div class="tools"><span class="tool ext">reisesøk-MCP</span></div></div>
     </div>
 
@@ -361,12 +361,12 @@
               <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
             </div>
           </div>
-          <div class="a">Skal jeg kjøpe dette for 309 kr? Oppgi i så fall mobilnummeret du bruker i Vipps.</div>
-          <div class="u">Ja. 912 34 567</div>
+          <div class="a">Skal jeg kjøpe dette for 309 kr? Vipps-forespørselen går til 912 •• 567, nummeret på Entur-kontoen din.</div>
+          <div class="u">Ja.</div>
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse og mobilnummer</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling.</p>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling. Mobilnummeret kommer fra Entur-innloggingen, så brukeren slipper å oppgi det.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
     </div>
 
@@ -386,7 +386,7 @@
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Ringer brukeren pay_order på nytt, kommer det ikke en ny betaling.</p>
+      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Ringer brukeren pay_order på nytt, kommer det ikke en ny betaling. ChatGPT kan be om en egen bekreftelse før reservasjonen og betalingen, så det kan bli tre ja: i chatten, i ChatGPT og i Vipps. Når ChatGPT gjør det, er ikke avklart.</p>
         <div class="tools"><span class="tool">pay_order</span></div></div>
     </div>
 
@@ -419,11 +419,11 @@
               <div class="hint">Ordre 3N7URR0X</div>
             </div>
           </div>
-          <div class="a">Betalingen gikk gjennom, og billettene ligger på Entur-kontoen din. På Lillehammer har du 16 minutter: bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
+          <div class="a">Betalingen gikk gjennom, og billettene er utstedt. På Lillehammer har du 16 minutter: bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
+      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt. Om billettene vises i Entur-appen når de er solgt gjennom salgs-MCP-en, er ikke avklart.</p>
         <div class="tools"><span class="tool">get_order</span></div></div>
     </div>
 
@@ -556,6 +556,9 @@
       <li>Hvor viser brukeren frem billetten etter et kjøp i Vipps: i Vipps, i Entur-appen eller som lenke?</li>
       <li>Kan Vipps' kjøpsassistent åpne betalingen direkte i appen, eller må den også gå via lenken?</li>
       <li>Hvem eier kjøpet når det starter i Vipps: Entur-kontoen til brukeren, eller ingen konto?</li>
+      <li>Viser Entur-appen billetter som er solgt gjennom salgs-MCP-en? Hvis ikke, har brukeren ingenting å vise frem om bord.</li>
+      <li>Godtar OpenAI billettsalg i en publisert plugin? Retningslinjene tillater i dag bare handel med fysiske varer, og Entur mener en billett hører til der.</li>
+      <li>Må betalingslenken i ChatGPT gå via en side hos Entur før Vipps, slik OpenAI beskriver betaling utenfor ChatGPT?</li>
       <li>Honnør på bussen: har operatøren en honnørprofil? Hvis ikke, viser salgs-MCP-en voksenpris for den etappen, og agenten må si fra.</li>
     </ul>
   </div>
