@@ -103,12 +103,12 @@
 <section id="flyt">
   <div class="wrap">
     <h2>Flyten</h2>
-    <p class="lead">Fra beskjed til billett i fire steg. Reisesøket finnes allerede. Salgslaget er det som må bygges, og betalingen går gjennom eksisterende Vipps-integrasjon.</p>
+    <p class="lead">Fra beskjed til billett i fire steg. Reisesøket og salgslaget finnes, salgslaget som prototype i staging. Betalingen er en Vipps-lenke som brukeren godkjenner i appen.</p>
     <div class="legend">
-      <span class="chip">Reisesøk-MCP · finnes</span>
-      <span class="chip new">Salgs-MCP · må bygges</span>
-      <span class="chip">Sales API · finnes, krever avtale</span>
-      <span class="chip">Vipps ePayment · finnes</span>
+      <span class="chip">Reisesøk-MCP · staging</span>
+      <span class="chip new">Salgs-MCP · prototype i staging</span>
+      <span class="chip">Sales API · staging</span>
+      <span class="chip">Vipps · lenke til godkjenning i appen</span>
     </div>
     <div class="diagram">
 <pre class="mermaid">
@@ -116,8 +116,8 @@ sequenceDiagram
     autonumber
     actor B as Bruker
     participant A as Agent (ChatGPT)
-    participant R as Entur reisesøk-MCP (finnes)
-    participant S as Entur salgs-MCP (må bygges)
+    participant R as Entur reisesøk-MCP (staging)
+    participant S as Entur salgs-MCP (prototype, staging)
     participant API as Entur Sales API
     participant V as Vipps MobilePay
 
@@ -128,36 +128,30 @@ sequenceDiagram
     A-->>B: Foreslår to avganger
     B->>A: Velger avgang
 
-    Note over A,API: 2. Tilbud og setereservasjon
-    A->>S: Hent tilbud for valgt avgang
-    S->>API: Søk tilbud med setereservasjon
+    Note over A,API: 2. Tilbud, reservasjon og sete
+    A->>S: get_offers for valgt avgang
+    S->>API: Søk tilbud
     API-->>S: Tilbud, gyldige i 30 min
-    S-->>A: Pris, billettype og setevalg
-    A->>S: Reserver tilbud med vindusplass i kjøreretningen
-    S->>API: Opprett ordre, reserver tilbud og sete
-    API-->>S: Ordre reservert med vogn, sete og totalbeløp
-    S-->>A: Ordresammendrag
+    S-->>A: Pris, billettype og utløpstid
+    A->>S: reserve_offers med ønske om vindusplass i kjøreretningen
+    S->>API: Opprett ordre og reserver tilbud.<br/>Bytt til vindusplass hvis det finnes en ledig
+    S-->>A: Ordre reservert: vogn, sete, totalbeløp og om ønsket ble oppfylt
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
     A-->>B: Avgang, vogn, sete og pris. Bekrefte?
-    B->>A: Bekrefter
-    A->>S: Betal ordre
-    alt Brukeren har Vipps-avtale med Entur
-        S->>API: Belast avtale
-        API->>V: Trekk innenfor avtalens tak
-        V-->>API: Belastet
-    else Ingen avtale
-        S->>API: Start betaling med telefonnummer
-        API->>V: Send push-betaling
-        V->>B: Godkjenn i Vipps-appen
-        B->>V: Godkjenner
-        V-->>API: Autorisert
-    end
-    API-->>S: Betaling bekreftet
+    B->>A: Bekrefter og oppgir mobilnummer
+    A->>S: pay_order med ordreversjon og totalbeløp
+    S->>API: Start Vipps-betaling med tekst skrevet av serveren
+    S-->>A: Vipps-lenke
+    A-->>B: Åpne lenken og godkjenn i Vipps
+    B->>V: Åpner lenken, sjekker Entur og beløp, godkjenner
+    V-->>API: Godkjent. Entur trekker beløpet og bekrefter ordren
 
     Note over B,API: 4. Billett
-    API-->>S: Billett utstedt
-    S-->>A: Billettreferanse
+    loop Til billetten er utstedt
+        A->>S: get_order
+        S-->>A: Status
+    end
     A-->>B: Billett med vogn- og setenummer
 </pre>
     </div>
@@ -167,7 +161,7 @@ sequenceDiagram
 <section id="steg">
   <div class="wrap">
     <h2>Stegene</h2>
-    <div class="grid g4"><div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren sier hvor og når. Agenten finner avganger gjennom reisesøk-MCP-en og foreslår to alternativer.</p></div><div class="card"><span class="tag">2 · RESERVASJON</span><h3>Tilbud og sete</h3><p>Agenten henter tilbud med setereservasjon og reserverer vindusplass i kjøreretningen. Tilbudet er gyldig i 30 minutter.</p></div><div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser sammendraget og bekrefter. Har brukeren en Vipps-avtale med Entur, trekkes beløpet der. Ellers godkjennes en push-betaling i Vipps-appen.</p></div><div class="card"><span class="tag">4 · BILLETT</span><h3>Levering</h3><p>Billetten utstedes, og agenten gir brukeren vogn- og setenummer.</p></div></div>
+    <div class="grid g4"><div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren sier hvor og når. Agenten finner avganger gjennom reisesøk-MCP-en og foreslår to alternativer.</p></div><div class="card"><span class="tag">2 · RESERVASJON</span><h3>Tilbud og sete</h3><p>Agenten henter tilbud og reserverer med ønske om vindusplass i kjøreretningen. Finnes det en ledig, byttes setet. Tilbudet er gyldig i 30 minutter.</p></div><div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser sammendraget, bekrefter og oppgir mobilnummer. Agenten gir en Vipps-lenke, og ingenting trekkes før brukeren godkjenner i Vipps-appen. Teksten i Vipps skrives av salgs-MCP-en.</p></div><div class="card"><span class="tag">4 · BILLETT</span><h3>Levering</h3><p>Billetten utstedes, og agenten gir brukeren vogn- og setenummer.</p></div></div>
   </div>
 </section>
 
@@ -179,8 +173,8 @@ sequenceDiagram
     autonumber
     actor B as Bruker
     participant A as Agent (ChatGPT)
-    participant R as Entur reisesøk-MCP (finnes)
-    participant S as Entur salgs-MCP (må bygges)
+    participant R as Entur reisesøk-MCP (staging)
+    participant S as Entur salgs-MCP (prototype, staging)
     participant API as Entur Sales API
     participant V as Vipps MobilePay
 
@@ -191,36 +185,30 @@ sequenceDiagram
     A--&gt;&gt;B: Foreslår to avganger
     B-&gt;&gt;A: Velger avgang
 
-    Note over A,API: 2. Tilbud og setereservasjon
-    A-&gt;&gt;S: Hent tilbud for valgt avgang
-    S-&gt;&gt;API: Søk tilbud med setereservasjon
+    Note over A,API: 2. Tilbud, reservasjon og sete
+    A-&gt;&gt;S: get_offers for valgt avgang
+    S-&gt;&gt;API: Søk tilbud
     API--&gt;&gt;S: Tilbud, gyldige i 30 min
-    S--&gt;&gt;A: Pris, billettype og setevalg
-    A-&gt;&gt;S: Reserver tilbud med vindusplass i kjøreretningen
-    S-&gt;&gt;API: Opprett ordre, reserver tilbud og sete
-    API--&gt;&gt;S: Ordre reservert med vogn, sete og totalbeløp
-    S--&gt;&gt;A: Ordresammendrag
+    S--&gt;&gt;A: Pris, billettype og utløpstid
+    A-&gt;&gt;S: reserve_offers med ønske om vindusplass i kjøreretningen
+    S-&gt;&gt;API: Opprett ordre og reserver tilbud.&lt;br/&gt;Bytt til vindusplass hvis det finnes en ledig
+    S--&gt;&gt;A: Ordre reservert: vogn, sete, totalbeløp og om ønsket ble oppfylt
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
     A--&gt;&gt;B: Avgang, vogn, sete og pris. Bekrefte?
-    B-&gt;&gt;A: Bekrefter
-    A-&gt;&gt;S: Betal ordre
-    alt Brukeren har Vipps-avtale med Entur
-        S-&gt;&gt;API: Belast avtale
-        API-&gt;&gt;V: Trekk innenfor avtalens tak
-        V--&gt;&gt;API: Belastet
-    else Ingen avtale
-        S-&gt;&gt;API: Start betaling med telefonnummer
-        API-&gt;&gt;V: Send push-betaling
-        V-&gt;&gt;B: Godkjenn i Vipps-appen
-        B-&gt;&gt;V: Godkjenner
-        V--&gt;&gt;API: Autorisert
-    end
-    API--&gt;&gt;S: Betaling bekreftet
+    B-&gt;&gt;A: Bekrefter og oppgir mobilnummer
+    A-&gt;&gt;S: pay_order med ordreversjon og totalbeløp
+    S-&gt;&gt;API: Start Vipps-betaling med tekst skrevet av serveren
+    S--&gt;&gt;A: Vipps-lenke
+    A--&gt;&gt;B: Åpne lenken og godkjenn i Vipps
+    B-&gt;&gt;V: Åpner lenken, sjekker Entur og beløp, godkjenner
+    V--&gt;&gt;API: Godkjent. Entur trekker beløpet og bekrefter ordren
 
     Note over B,API: 4. Billett
-    API--&gt;&gt;S: Billett utstedt
-    S--&gt;&gt;A: Billettreferanse
+    loop Til billetten er utstedt
+        A-&gt;&gt;S: get_order
+        S--&gt;&gt;A: Status
+    end
     A--&gt;&gt;B: Billett med vogn- og setenummer
 </pre>
     </details>
