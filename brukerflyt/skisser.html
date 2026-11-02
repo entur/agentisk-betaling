@@ -362,12 +362,12 @@
               <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
             </div>
           </div>
-          <div class="a">Skal jeg kjøpe dette for 309 kr? Vipps-forespørselen går til 912 •• 567, nummeret på Entur-kontoen din.</div>
+          <div class="a">Skal jeg kjøpe dette for 309 kr?</div>
           <div class="u">Ja.</div>
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling. Mobilnummeret kommer fra Entur-innloggingen, så brukeren slipper å oppgi det.</p>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling. Agenten spør ikke om mobilnummer.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
     </div>
 
@@ -394,6 +394,20 @@
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone wf">
         <div class="top"><i></i>Vipps</div>
+        <div class="center" style="text-align:left">
+          <div style="font-weight:700;color:#3c3d42;font-size:15px">Betal 309 kr til Entur AS</div>
+          <div style="font-size:11px;color:#8a8b90">Skriv inn mobilnummeret ditt og fullfør betalingen i Vipps.</div>
+          <div style="display:flex;gap:6px"><div class="box" style="flex:0 0 auto">+47</div><div class="box" style="flex:1;">912 34 567</div></div>
+          <div class="btn wfb">Neste</div>
+        </div>
+      </div>
+      <div class="cap"><span class="n">STEG 5 · MOBILNUMMER</span><b>Nummeret er fylt ut hos Vipps</b><p>Lenken åpner en side hos Vipps. Salgs-MCP-en sender med nummeret fra Entur-kontoen, så feltet er fylt ut. Brukeren kan endre det.</p>
+        <div class="tools"><span class="tool ext">Vipps-siden</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Vipps</div>
         <div class="center">
           <div style="font-size:11px;color:#8a8b90">Betal til</div>
           <div style="font-weight:700;color:#3c3d42;font-size:15px">Entur AS</div>
@@ -403,7 +417,7 @@
           <div class="btn wfl" style="margin-top:0">Avbryt</div>
         </div>
       </div>
-      <div class="cap"><span class="n">STEG 5 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Brukeren sjekker mottaker, beløp og ordre, og godkjenner. Deretter tilbake til ChatGPT.</p>
+      <div class="cap"><span class="n">STEG 6 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Brukeren sjekker mottaker, beløp og ordre, og godkjenner. Deretter tilbake til ChatGPT.</p>
         <div class="tools"><span class="tool ext">Vipps-appen</span></div></div>
     </div>
 
@@ -424,7 +438,7 @@
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt. Om billettene vises i Entur-appen når de er solgt gjennom salgs-MCP-en, er ikke avklart.</p>
+      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt. Om billettene vises i Entur-appen når de er solgt gjennom salgs-MCP-en, er ikke avklart.</p>
         <div class="tools"><span class="tool">get_order</span></div></div>
     </div>
 
@@ -480,12 +494,12 @@
             <div class="row"><span><span class="pill bus">140</span>10:15 fra Lillehammer</span><span>Honnør</span></div>
             <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
           </div>
-          <div class="a">Billettene er holdt av. Vil du kjøpe dem for 309 kr? Skriv mobilnummeret du bruker i Vipps.</div>
-          <div class="u">Ja, 912 34 567</div>
+          <div class="a">Billettene er holdt av. Vil du kjøpe dem for 309 kr?</div>
+          <div class="u">Ja.</div>
         </div>
         <div class="compose">Spør reiseagenten</div>
       </div>
-      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av, så bekreftelse</b><p>Ja-et i chatten blir bedt om. Det salgs-MCP-en håndhever, er godkjenningen i Vipps.</p>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av, så bekreftelse</b><p>Ja-et i chatten blir bedt om. Det salgs-MCP-en håndhever, er godkjenningen i Vipps. Agenten spør ikke om mobilnummer.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
     </div>
 
@@ -509,6 +523,20 @@
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone wf">
         <div class="top"><i></i>Vipps</div>
+        <div class="center" style="text-align:left">
+          <div style="font-weight:700;color:#3c3d42;font-size:15px">Betal 309 kr til Entur AS</div>
+          <div style="font-size:11px;color:#8a8b90">Skriv inn mobilnummeret ditt og fullfør betalingen i Vipps.</div>
+          <div style="display:flex;gap:6px"><div class="box" style="flex:0 0 auto">+47</div><div class="box" style="flex:1;color:#a3a4aa">Mobilnummer</div></div>
+          <div class="btn wfb">Neste</div>
+        </div>
+      </div>
+      <div class="cap"><span class="n">STEG 5 · MOBILNUMMER</span><b>Brukeren skriver nummeret hos Vipps</b><p>Agenten har ikke spurt om nummeret, så feltet er tomt. Brukeren fyller det inn på Vipps-siden.</p>
+        <div class="tools"><span class="tool ext">Vipps-siden</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Vipps</div>
         <div class="center">
           <div style="font-size:11px;color:#8a8b90">Betal til</div>
           <div style="font-weight:700;color:#3c3d42;font-size:15px">Entur AS</div>
@@ -518,7 +546,7 @@
           <div class="btn wfl" style="margin-top:0">Avbryt</div>
         </div>
       </div>
-      <div class="cap"><span class="n">STEG 5 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Samme skjerm som fra ChatGPT. Deretter tilbake til reiseagenten.</p>
+      <div class="cap"><span class="n">STEG 6 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Samme skjerm som fra ChatGPT. Deretter tilbake til reiseagenten.</p>
         <div class="tools"><span class="tool ext">Vipps-appen</span></div></div>
     </div>
 
@@ -537,7 +565,7 @@
         </div>
         <div class="compose">Spør reiseagenten</div>
       </div>
-      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
+      <div class="cap"><span class="n">STEG 7 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
         <div class="tools"><span class="tool">get_order</span></div></div>
     </div>
 
