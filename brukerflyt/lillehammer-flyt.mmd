@@ -2,8 +2,8 @@ sequenceDiagram
     autonumber
     actor B as Bruker
     participant A as Agent (ChatGPT)
-    participant R as Entur reisesøk-MCP (finnes)
-    participant S as Entur salgs-MCP (må bygges)
+    participant R as Entur reisesøk-MCP (staging)
+    participant S as Entur salgs-MCP (prototype, staging)
     participant API as Entur Sales API
     participant V as Vipps MobilePay
 
@@ -14,34 +14,28 @@ sequenceDiagram
     A-->>B: Foreslår tog til Lillehammer<br/>og buss videre til Aulestad, med overgangstid
     B->>A: Velger reiseforslag
 
-    Note over A,API: 2. Tilbud for begge etappene
-    A->>S: Hent tilbud for hele reisen
-    S->>API: Søk honnørtilbud for tog og buss
+    Note over A,API: 2. Tilbud og reservasjon for begge etappene
+    A->>S: get_offers for begge etappene, honnør med alder
+    S->>API: Søk tilbud for tog og buss
     API-->>S: Tilbud for hver etappe, gyldige i 30 min
-    S-->>A: Pris per etappe og totalpris
-    A->>S: Reserver begge etappene
-    S->>API: Opprett ordre, reserver togtilbud og busstilbud
-    API-->>S: Ordre reservert med totalbeløp
-    S-->>A: Ordresammendrag
+    S-->>A: Pris og brukt kategori per etappe, totalpris
+    A->>S: reserve_offers for begge etappene
+    S->>API: Opprett én ordre, reserver togtilbud og busstilbud
+    S-->>A: Ordre reservert med totalbeløp
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
-    A-->>B: Tog, buss, overgangstid og honnørpris. Bekrefte?
-    B->>A: Bekrefter
-    A->>S: Betal ordre
-    alt Brukeren har Vipps-avtale med Entur
-        S->>API: Belast avtale
-        API->>V: Trekk innenfor avtalens tak
-        V-->>API: Belastet
-    else Ingen avtale
-        S->>API: Start betaling med telefonnummer
-        API->>V: Send push-betaling
-        V->>B: Godkjenn i Vipps-appen
-        B->>V: Godkjenner
-        V-->>API: Autorisert
-    end
-    API-->>S: Betaling bekreftet
+    A-->>B: Tog, buss, overgangstid og honnørpris per etappe. Bekrefte?
+    B->>A: Bekrefter og oppgir mobilnummer
+    A->>S: pay_order med ordreversjon og totalbeløp
+    S->>API: Start Vipps-betaling med tekst skrevet av serveren
+    S-->>A: Vipps-lenke
+    A-->>B: Åpne lenken og godkjenn i Vipps
+    B->>V: Åpner lenken, sjekker Entur og beløp, godkjenner
+    V-->>API: Godkjent. Entur trekker beløpet og bekrefter ordren
 
     Note over B,API: 4. Billetter og overgang
-    API-->>S: Honnørbilletter utstedt for tog og buss
-    S-->>A: Billettreferanser
+    loop Til billettene er utstedt
+        A->>S: get_order
+        S-->>A: Status
+    end
     A-->>B: Billetter, hvor bussen går fra<br/>og hvor lang tid overgangen har

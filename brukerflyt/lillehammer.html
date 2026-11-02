@@ -103,12 +103,12 @@
 <section id="flyt">
   <div class="wrap">
     <h2>Flyten</h2>
-    <p class="lead">Fra beskjed til billett i fire steg. Reisesøket finnes allerede. Salgslaget er det som må bygges, og betalingen går gjennom eksisterende Vipps-integrasjon.</p>
+    <p class="lead">Fra beskjed til billett i fire steg. Reisesøket og salgslaget finnes, salgslaget som prototype i staging. Betalingen er en Vipps-lenke som brukeren godkjenner i appen.</p>
     <div class="legend">
-      <span class="chip">Reisesøk-MCP · finnes</span>
-      <span class="chip new">Salgs-MCP · må bygges</span>
-      <span class="chip">Sales API · finnes, krever avtale</span>
-      <span class="chip">Vipps ePayment · finnes</span>
+      <span class="chip">Reisesøk-MCP · staging</span>
+      <span class="chip new">Salgs-MCP · prototype i staging</span>
+      <span class="chip">Sales API · staging</span>
+      <span class="chip">Vipps · lenke til godkjenning i appen</span>
     </div>
     <div class="diagram">
 <pre class="mermaid">
@@ -116,8 +116,8 @@ sequenceDiagram
     autonumber
     actor B as Bruker
     participant A as Agent (ChatGPT)
-    participant R as Entur reisesøk-MCP (finnes)
-    participant S as Entur salgs-MCP (må bygges)
+    participant R as Entur reisesøk-MCP (staging)
+    participant S as Entur salgs-MCP (prototype, staging)
     participant API as Entur Sales API
     participant V as Vipps MobilePay
 
@@ -128,36 +128,30 @@ sequenceDiagram
     A-->>B: Foreslår tog til Lillehammer<br/>og buss videre til Aulestad, med overgangstid
     B->>A: Velger reiseforslag
 
-    Note over A,API: 2. Tilbud for begge etappene
-    A->>S: Hent tilbud for hele reisen
-    S->>API: Søk honnørtilbud for tog og buss
+    Note over A,API: 2. Tilbud og reservasjon for begge etappene
+    A->>S: get_offers for begge etappene, honnør med alder
+    S->>API: Søk tilbud for tog og buss
     API-->>S: Tilbud for hver etappe, gyldige i 30 min
-    S-->>A: Pris per etappe og totalpris
-    A->>S: Reserver begge etappene
-    S->>API: Opprett ordre, reserver togtilbud og busstilbud
-    API-->>S: Ordre reservert med totalbeløp
-    S-->>A: Ordresammendrag
+    S-->>A: Pris og brukt kategori per etappe, totalpris
+    A->>S: reserve_offers for begge etappene
+    S->>API: Opprett én ordre, reserver togtilbud og busstilbud
+    S-->>A: Ordre reservert med totalbeløp
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
-    A-->>B: Tog, buss, overgangstid og honnørpris. Bekrefte?
-    B->>A: Bekrefter
-    A->>S: Betal ordre
-    alt Brukeren har Vipps-avtale med Entur
-        S->>API: Belast avtale
-        API->>V: Trekk innenfor avtalens tak
-        V-->>API: Belastet
-    else Ingen avtale
-        S->>API: Start betaling med telefonnummer
-        API->>V: Send push-betaling
-        V->>B: Godkjenn i Vipps-appen
-        B->>V: Godkjenner
-        V-->>API: Autorisert
-    end
-    API-->>S: Betaling bekreftet
+    A-->>B: Tog, buss, overgangstid og honnørpris per etappe. Bekrefte?
+    B->>A: Bekrefter og oppgir mobilnummer
+    A->>S: pay_order med ordreversjon og totalbeløp
+    S->>API: Start Vipps-betaling med tekst skrevet av serveren
+    S-->>A: Vipps-lenke
+    A-->>B: Åpne lenken og godkjenn i Vipps
+    B->>V: Åpner lenken, sjekker Entur og beløp, godkjenner
+    V-->>API: Godkjent. Entur trekker beløpet og bekrefter ordren
 
     Note over B,API: 4. Billetter og overgang
-    API-->>S: Honnørbilletter utstedt for tog og buss
-    S-->>A: Billettreferanser
+    loop Til billettene er utstedt
+        A->>S: get_order
+        S-->>A: Status
+    end
     A-->>B: Billetter, hvor bussen går fra<br/>og hvor lang tid overgangen har
 </pre>
     </div>
@@ -167,7 +161,7 @@ sequenceDiagram
 <section id="steg">
   <div class="wrap">
     <h2>Stegene</h2>
-    <div class="grid g4"><div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren navngir stedet og sier når de må være fremme. Agenten finner adressen, Aulestadvegen 6 i Gausdal, og en reise med tog og buss gjennom reisesøk-MCP-en.</p></div><div class="card"><span class="tag">2 · RESERVASJON</span><h3>Begge etappene</h3><p>Agenten henter honnørtilbud for tog og buss og reserverer begge i én ordre. Tilbudene er gyldige i 30 minutter.</p></div><div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser sammendraget og bekrefter. Har brukeren en Vipps-avtale med Entur, trekkes beløpet der. Ellers godkjennes en push-betaling i Vipps-appen.</p></div><div class="card"><span class="tag">4 · BILLETTER</span><h3>Levering</h3><p>Billettene utstedes, og agenten forteller hvor bussen går fra og hvor lang tid overgangen har.</p></div></div>
+    <div class="grid g4"><div class="card"><span class="tag">1 · INTENSJON</span><h3>Reisesøk</h3><p>Brukeren navngir stedet og sier når de må være fremme. Agenten finner adressen, Aulestadvegen 6 i Gausdal, og en reise med tog og buss gjennom reisesøk-MCP-en.</p></div><div class="card"><span class="tag">2 · RESERVASJON</span><h3>Begge etappene</h3><p>Agenten henter honnørtilbud for tog og buss og reserverer begge i én ordre. Tilbudene er gyldige i 30 minutter.</p></div><div class="card"><span class="tag">3 · BEKREFTELSE</span><h3>Menneske i loopen</h3><p>Brukeren ser sammendraget, bekrefter og oppgir mobilnummer. Agenten gir en Vipps-lenke, og ingenting trekkes før brukeren godkjenner i Vipps-appen. Teksten i Vipps skrives av salgs-MCP-en.</p></div><div class="card"><span class="tag">4 · BILLETTER</span><h3>Levering</h3><p>Billettene utstedes, og agenten forteller hvor bussen går fra og hvor lang tid overgangen har.</p></div></div>
   </div>
 </section>
 
@@ -179,48 +173,42 @@ sequenceDiagram
     autonumber
     actor B as Bruker
     participant A as Agent (ChatGPT)
-    participant R as Entur reisesøk-MCP (finnes)
-    participant S as Entur salgs-MCP (må bygges)
+    participant R as Entur reisesøk-MCP (staging)
+    participant S as Entur salgs-MCP (prototype, staging)
     participant API as Entur Sales API
     participant V as Vipps MobilePay
 
     Note over B,R: 1. Intensjon og reisesøk
     B-&gt;&gt;A: Jeg skal til Bjørnstjerne Bjørnsons hjem på Aulestad&lt;br/&gt;lørdag og må være der før kl. 12. Honnørbillett
-    A-&gt;&gt;R: Søk Oslo S til Aulestadvegen 6 i Gausdal,<br/>ankomst før 12
+    A-&gt;&gt;R: Søk Oslo S til Aulestadvegen 6 i Gausdal,&lt;br/&gt;ankomst før 12
     R--&gt;&gt;A: Reiseforslag med tog og buss
     A--&gt;&gt;B: Foreslår tog til Lillehammer&lt;br/&gt;og buss videre til Aulestad, med overgangstid
     B-&gt;&gt;A: Velger reiseforslag
 
-    Note over A,API: 2. Tilbud for begge etappene
-    A-&gt;&gt;S: Hent tilbud for hele reisen
-    S-&gt;&gt;API: Søk honnørtilbud for tog og buss
+    Note over A,API: 2. Tilbud og reservasjon for begge etappene
+    A-&gt;&gt;S: get_offers for begge etappene, honnør med alder
+    S-&gt;&gt;API: Søk tilbud for tog og buss
     API--&gt;&gt;S: Tilbud for hver etappe, gyldige i 30 min
-    S--&gt;&gt;A: Pris per etappe og totalpris
-    A-&gt;&gt;S: Reserver begge etappene
-    S-&gt;&gt;API: Opprett ordre, reserver togtilbud og busstilbud
-    API--&gt;&gt;S: Ordre reservert med totalbeløp
-    S--&gt;&gt;A: Ordresammendrag
+    S--&gt;&gt;A: Pris og brukt kategori per etappe, totalpris
+    A-&gt;&gt;S: reserve_offers for begge etappene
+    S-&gt;&gt;API: Opprett én ordre, reserver togtilbud og busstilbud
+    S--&gt;&gt;A: Ordre reservert med totalbeløp
 
     Note over B,V: 3. Bekreftelse og betaling, menneske i loopen
-    A--&gt;&gt;B: Tog, buss, overgangstid og honnørpris. Bekrefte?
-    B-&gt;&gt;A: Bekrefter
-    A-&gt;&gt;S: Betal ordre
-    alt Brukeren har Vipps-avtale med Entur
-        S-&gt;&gt;API: Belast avtale
-        API-&gt;&gt;V: Trekk innenfor avtalens tak
-        V--&gt;&gt;API: Belastet
-    else Ingen avtale
-        S-&gt;&gt;API: Start betaling med telefonnummer
-        API-&gt;&gt;V: Send push-betaling
-        V-&gt;&gt;B: Godkjenn i Vipps-appen
-        B-&gt;&gt;V: Godkjenner
-        V--&gt;&gt;API: Autorisert
-    end
-    API--&gt;&gt;S: Betaling bekreftet
+    A--&gt;&gt;B: Tog, buss, overgangstid og honnørpris per etappe. Bekrefte?
+    B-&gt;&gt;A: Bekrefter og oppgir mobilnummer
+    A-&gt;&gt;S: pay_order med ordreversjon og totalbeløp
+    S-&gt;&gt;API: Start Vipps-betaling med tekst skrevet av serveren
+    S--&gt;&gt;A: Vipps-lenke
+    A--&gt;&gt;B: Åpne lenken og godkjenn i Vipps
+    B-&gt;&gt;V: Åpner lenken, sjekker Entur og beløp, godkjenner
+    V--&gt;&gt;API: Godkjent. Entur trekker beløpet og bekrefter ordren
 
     Note over B,API: 4. Billetter og overgang
-    API--&gt;&gt;S: Honnørbilletter utstedt for tog og buss
-    S--&gt;&gt;A: Billettreferanser
+    loop Til billettene er utstedt
+        A-&gt;&gt;S: get_order
+        S--&gt;&gt;A: Status
+    end
     A--&gt;&gt;B: Billetter, hvor bussen går fra&lt;br/&gt;og hvor lang tid overgangen har
 </pre>
     </details>
