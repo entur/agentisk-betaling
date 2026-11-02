@@ -17,6 +17,7 @@ Brukerflyten for agentisk billettkjøp, laget til samarbeidet med Vipps MobilePa
 | `bergen.html` | Use-case 1: tog Oslo S til Bergen med vindusplass i kjøreretningen |
 | `lillehammer.html` | Use-case 2: tog og buss Oslo S til Aulestad i Gausdal, honnørbillett |
 | `skisser.html` | Skisser av Aulestad-kjøpet i Vipps' kjøpsassistent, ChatGPT og Enturs reiseagent, etter verktøyene i `entur/kix-salesmcp` |
+| `presentasjon.html` | Skissene som lysbilder, én skjerm per lysbilde. Henter skjermene fra `skisser.html`, så skissene endres bare der. Piltaster eller klikk for å bla, `f` for fullskjerm |
 | `skisser/*.png` | Én stripe per agent til deling i Slack. Lages på nytt fra `skisser.html?bilde` (se under) |
 | `*.mmd` | Mermaid-kilden til hvert diagram. Sidene har samme kode innebygd |
 | `chatgpt-flyt.png` | Oversiktsdiagrammet som bilde, til deling i Slack |

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Billettkjøpet i tre agenter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Skjermene hentes fra skisser.html når siden lastes, slik at skissene bare finnes ett sted. -->
+<style id="deck-css">
+  html,body{margin:0;height:100%;overflow:hidden;background:#0f1030}
+  body{font-family:"Inter","Helvetica Neue",Arial,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  #viewport{position:fixed;inset:0;display:grid;place-items:center}
+  #stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
+  .slide{position:absolute;inset:0;background:#fff;color:#212233;display:none;overflow:hidden;padding:0;border:0;line-height:1.45}
+  .slide.on{display:block}
+
+  /* felles */
+  .kicker{font-family:"DM Mono",ui-monospace,monospace;font-size:18px;color:#f73e3b;letter-spacing:.02em}
+  .slide h1,.slide h2,.slide h3{color:#292b6a;letter-spacing:-.015em;line-height:1.12;margin:0;font-weight:700}
+  .muted{color:#6e6f73}
+  .foot{position:absolute;left:72px;right:72px;bottom:30px;display:flex;justify-content:space-between;font-family:"DM Mono",ui-monospace,monospace;font-size:15px;color:#949699}
+
+  /* tittel */
+  .s-title{background:#292b6a;color:#fff}
+  .s-title .in{position:absolute;left:120px;top:210px;right:120px}
+  .s-title h1{color:#fff;font-size:84px;max-width:15ch}
+  .s-title p{font-size:28px;line-height:1.45;color:rgba(255,255,255,.86);max-width:52ch;margin:34px 0 0}
+  .s-title .flows{display:flex;gap:14px;margin-top:46px}
+  .s-title .flows span{font-family:"DM Mono",ui-monospace,monospace;font-size:18px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:8px 18px}
+  .s-title .foot{color:rgba(255,255,255,.55)}
+
+  /* kontekst og lister */
+  .s-text .in{position:absolute;left:120px;top:110px;right:120px}
+  .s-text h2{font-size:56px;margin-bottom:22px}
+  .s-text .lead{font-size:26px;line-height:1.5;color:#6e6f73;max-width:60ch;margin:0}
+  .s-text .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .s-text .facts div{background:#f6f6f9;border:1px solid #e3e6e8;border-radius:6px;padding:24px;font-size:20px;line-height:1.5}
+  .s-text .facts b{display:block;color:#292b6a;margin-bottom:6px;font-size:21px}
+  .s-text .legend{margin-top:30px;font-size:19px;color:#6e6f73}
+  .s-text ul{list-style:none;padding:0;margin:8px 0 0;max-width:1300px}
+  .s-text li{position:relative;padding:15px 0 15px 34px;border-bottom:1px solid #e3e6e8;font-size:23px;line-height:1.45}
+  .s-text li::before{content:"";position:absolute;left:0;top:26px;width:12px;height:12px;background:#ffca28;border-radius:2px}
+  .s-text li b{color:#292b6a}
+  .s-text.dense li{font-size:21px;padding:12px 0 12px 34px}
+  .s-text.dense li::before{top:22px}
+
+  /* flytintro */
+  .s-intro .in{position:absolute;left:120px;top:96px;right:120px}
+  .s-intro .num{font-family:"DM Mono",ui-monospace,monospace;font-size:20px;color:#f73e3b}
+  .s-intro h2{font-size:64px;margin:8px 0 22px}
+  .s-intro .lead{font-size:25px;line-height:1.5;color:#6e6f73;max-width:64ch;margin:0}
+  .s-intro .mini{position:absolute;left:120px;right:120px;bottom:86px;display:flex;gap:26px;align-items:flex-end}
+  .s-intro .mini .m{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .s-intro .mini .m > span{font-family:"DM Mono",ui-monospace,monospace;font-size:14px;color:#949699;max-width:170px;text-align:center;line-height:1.3}
+
+  /* skjerm */
+  .s-screen{background:#f6f6f9}
+  .s-screen .head{position:absolute;left:72px;top:46px;font-family:"DM Mono",ui-monospace,monospace;font-size:17px;color:#54568c}
+  .s-screen .head b{color:#292b6a;font-weight:500}
+  .s-screen .phonebox{position:absolute;left:150px;top:72px}
+  .s-screen .text{position:absolute;left:700px;top:200px;right:110px}
+  .s-screen .text .kicker{display:block;margin-bottom:14px}
+  .s-screen .text h3{font-size:54px;margin-bottom:24px;max-width:20ch}
+  .s-screen .text p{font-size:26px;line-height:1.5;color:#212233;max-width:40ch;margin:0}
+  .s-screen .tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .s-screen .tool{font-family:"DM Mono",ui-monospace,monospace;font-size:17px;padding:5px 14px;border-radius:999px;border:1.5px solid #54568c;color:#292b6a;background:#fff}
+  .s-screen .tool.ext{border-style:dashed;color:#6e6f73;border-color:#949699}
+  .s-screen .steps{position:absolute;left:700px;right:110px;bottom:86px;display:flex;gap:8px}
+  .s-screen .steps i{flex:1;height:5px;border-radius:3px;background:#dcdce6}
+  .s-screen .steps i.done{background:#9a9bc0}
+  .s-screen .steps i.cur{background:#f73e3b}
+
+  /* telefon i fast størrelse, skalert */
+  .pbox{position:relative}
+  .pbox .stamp{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:5}
+  .pbox .scaler{transform-origin:top left;position:absolute;left:0;top:14px}
+
+  /* navigasjon */
+  #bar{position:fixed;left:0;bottom:0;height:4px;background:#f73e3b;transition:width .2s;z-index:10}
+  #count{position:fixed;right:18px;bottom:12px;font-family:"DM Mono",ui-monospace,monospace;font-size:13px;color:#8b8ca6;z-index:10}
+  .slide code{font-family:"DM Mono",ui-monospace,monospace;font-size:.88em}
+  #err{position:fixed;inset:0;display:none;place-items:center;color:#fff;font-size:20px;text-align:center;padding:40px;line-height:1.6}
+  #err code{background:rgba(255,255,255,.12);padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage"></div></div>
+<div id="bar"></div>
+<div id="count"></div>
+<div id="err"><div>Presentasjonen henter skjermene fra <code>skisser.html</code> og må åpnes via en webserver.<br>Lokalt: <code>python3 -m http.server</code> i mappen <code>brukerflyt/</code>, og åpne <code>localhost:8000/presentasjon.html</code>.</div></div>
+
+<script>
+(async () => {
+  const stage = document.getElementById('stage');
+  let doc;
+  try {
+    const res = await fetch('skisser.html', { cache: 'no-cache' });
+    if (!res.ok) throw new Error(res.status);
+    doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+  } catch (e) {
+    document.getElementById('err').style.display = 'grid';
+    return;
+  }
+
+  // Skissesidens stiler gir telefonene samme utseende. Dekkets egne regler legges etter.
+  const css = document.createElement('style');
+  css.textContent = doc.querySelector('style').textContent;
+  document.head.insertBefore(css, document.getElementById('deck-css'));
+
+  const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+  const txt = (root, sel) => (root.querySelector(sel)?.innerHTML || '').trim();
+  const slides = [];
+  const add = (cls) => { const s = el('section', 'slide ' + cls); stage.appendChild(s); slides.push(s); return s; };
+  const foot = (s, left) => s.appendChild(el('div', 'foot', `<span>${left}</span><span>Skisse · Entur</span>`));
+
+  // Klon en telefon i fast størrelse. Telefonen er 300 x 640 px i skissene.
+  function phone(shot, scale) {
+    const box = el('div', 'pbox');
+    box.style.width = 300 * scale + 'px';
+    box.style.height = 640 * scale + 14 + 'px';
+    const stamp = shot.querySelector('.stamp');
+    if (stamp) { const st = stamp.cloneNode(true); st.style.transform = `translateX(-50%) scale(${Math.max(scale, 0.75)})`; st.style.transformOrigin = 'top center'; box.appendChild(st); }
+    const sc = el('div', 'scaler');
+    sc.style.transform = `scale(${scale})`;
+    sc.appendChild(shot.querySelector('.phone').cloneNode(true));
+    box.appendChild(sc);
+    return box;
+  }
+
+  // 1. Tittel
+  const hero = doc.querySelector('.hero');
+  const flows = [...doc.querySelectorAll('section[id]')].filter(s => s.querySelector('.strip'));
+  let s = add('s-title');
+  s.appendChild(el('div', 'in',
+    `<h1>${txt(hero, 'h1')}</h1><p>${txt(hero, 'p')}</p>
+     <div class="flows">${flows.map(f => `<span>${f.querySelector('h2').textContent.replace(/^\d+\.\s*/, '')}</span>`).join('')}</div>`));
+  foot(s, 'Agentisk billettkjøp · tog og buss til Aulestad');
+
+  // 2. Reisen og reglene
+  const ctx = [...doc.querySelectorAll('section')].find(x => x.querySelector('.facts'));
+  if (ctx) {
+    s = add('s-text');
+    s.appendChild(el('div', 'in',
+      `<h2>${txt(ctx, 'h2')}</h2><p class="lead">${txt(ctx, '.lead')}</p>
+       <div class="facts">${txt(ctx, '.facts')}</div>
+       <p class="legend">${txt(ctx, 'p.notes')}</p>`));
+    foot(s, 'Utgangspunktet');
+  }
+
+  // 3. Én intro og én lysbilde per skjerm for hver flyt
+  flows.forEach((f, fi) => {
+    const title = f.querySelector('h2').textContent.trim();
+    const name = title.replace(/^\d+\.\s*/, '');
+    const shots = [...f.querySelectorAll('.shot')];
+
+    s = add('s-intro');
+    s.appendChild(el('div', 'in',
+      `<div class="num">Flyt ${fi + 1} av ${flows.length} · ${shots.length} skjermer</div>
+       <h2>${name}</h2><p class="lead">${txt(f, '.lead')}</p>`));
+    const mini = el('div', 'mini');
+    shots.forEach(sh => {
+      const m = el('div', 'm');
+      m.appendChild(phone(sh, 0.5));
+      m.appendChild(el('span', '', sh.querySelector('.cap .n')?.textContent.replace(/^STEG\s*/i, '') || ''));
+      mini.appendChild(m);
+    });
+    s.appendChild(mini);
+    foot(s, name);
+
+    shots.forEach((sh, i) => {
+      s = add('s-screen');
+      s.appendChild(el('div', 'head', `<b>${fi + 1} · ${name}</b> &nbsp;·&nbsp; skjerm ${i + 1} av ${shots.length}`));
+      const pb = el('div', 'phonebox');
+      pb.appendChild(phone(sh, 1.2));
+      s.appendChild(pb);
+      const cap = sh.querySelector('.cap');
+      s.appendChild(el('div', 'text',
+        `<span class="kicker">${txt(cap, '.n')}</span><h3>${txt(cap, 'b')}</h3><p>${txt(cap, 'p')}</p>
+         <div class="tools">${txt(cap, '.tools')}</div>`));
+      s.appendChild(el('div', 'steps', shots.map((_, j) => `<i class="${j < i ? 'done' : j === i ? 'cur' : ''}"></i>`).join('')));
+    });
+  });
+
+  // 4. Forskjellene og åpne spørsmål
+  const apne = doc.getElementById('apne');
+  if (apne) {
+    const h = apne.querySelectorAll('h2');
+    s = add('s-text');
+    s.appendChild(el('div', 'in', `<h2>${h[0].innerHTML}</h2><ul>${txt(apne, 'ul.notes')}</ul>`));
+    foot(s, 'Oppsummering');
+    s = add('s-text dense');
+    s.appendChild(el('div', 'in', `<h2>${h[1].innerHTML}</h2><ul>${txt(apne, 'ul.open')}</ul>`));
+    foot(s, 'Oppsummering');
+  }
+
+  // Skalering til vinduet
+  function fit() {
+    const k = Math.min(innerWidth / 1600, innerHeight / 900);
+    stage.style.transform = `scale(${k})`;
+  }
+  addEventListener('resize', fit); fit();
+
+  // Navigasjon
+  let cur = 0;
+  function show(n) {
+    cur = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((x, j) => x.classList.toggle('on', j === cur));
+    document.getElementById('bar').style.width = ((cur + 1) / slides.length * 100) + '%';
+    document.getElementById('count').textContent = `${cur + 1} / ${slides.length}`;
+    history.replaceState(null, '', '#' + (cur + 1));
+  }
+  addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+  });
+  addEventListener('click', e => { if (!e.target.closest('a')) show(cur + (e.clientX > innerWidth / 3 ? 1 : -1)); });
+  let tx = null;
+  addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 40) show(cur + (d < 0 ? 1 : -1)); tx = null; });
+  show((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
+</body>
+</html>
