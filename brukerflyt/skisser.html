@@ -122,6 +122,29 @@
   ul.open{list-style:none;padding:0;margin:0;max-width:80ch}
   ul.open li{position:relative;padding:12px 0 12px 28px;border-bottom:1px solid var(--border)}
   ul.open li::before{content:"";position:absolute;left:0;top:20px;width:9px;height:9px;background:var(--canary);border-radius:2px}
+
+  /* ChatGPT iOS, etter skjermbilde fra appen */
+  .gpt{background:#fcfcfc;color:#0d0d0d;font-family:-apple-system,"SF Pro Text","Helvetica Neue",Inter,sans-serif}
+  .gpt .sb{height:30px;display:flex;justify-content:space-between;align-items:center;padding:4px 22px 0 26px;font-size:12.5px}
+  .gpt .sb span{display:flex;gap:5px;align-items:center;fill:#0d0d0d}
+  .gpt .bat{font-style:normal;font-size:8.5px;font-weight:700;color:#fff;background:#0d0d0d;border-radius:3.5px;padding:0 4px;line-height:11px}
+  .gpt .gtop{display:flex;justify-content:space-between;align-items:center;padding:6px 12px 4px}
+  .gpt .circ{width:36px;height:36px;border-radius:50%;border:1px solid #e6e6e6;background:#fff;display:grid;place-items:center;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .gpt .dot{position:absolute;top:10px;right:8px;width:6px;height:6px;border-radius:50%;background:#3b5bdb}
+  .gpt .pillbtns{height:36px;border-radius:999px;border:1px solid #e6e6e6;background:#fff;display:flex;align-items:center;gap:22px;padding:0 16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .gpt .pillbtns b{font-size:16px;letter-spacing:-1px;line-height:1}
+  .gpt .msgs{font-size:13px;line-height:1.5;gap:12px;padding:10px 12px 6px}
+  .gpt .u{background:#f3f3f3;border-radius:18px;padding:9px 13px;max-width:78%}
+  .gpt .a{max-width:100%;align-self:stretch;color:#0d0d0d}
+  .gpt .think{font-size:12.5px;color:#8f8f8f;display:flex;align-items:center;gap:7px}
+  .gpt .appchip{display:flex;align-items:center;gap:6px;font-size:12px;color:#8f8f8f;margin-bottom:7px}
+  .gpt .appchip i{width:16px;height:16px;border-radius:5px;background:#181c56}
+  .gpt .widget{border:1px solid #e8e8e8;border-radius:16px;padding:11px 12px;background:#fff;font-size:12px}
+  .gpt .btn.dark{background:#0d0d0d;color:#fff}
+  .gpt .gcomp{margin:6px 10px 12px;height:42px;border-radius:999px;border:1px solid #e6e6e6;background:#fff;display:flex;align-items:center;gap:10px;padding:0 5px 0 13px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .gpt .gcomp .plus{font-size:21px;font-weight:300;line-height:1}
+  .gpt .gcomp .ph{flex:1;color:#9a9a9a;font-size:13.5px}
+  .gpt .gcomp .send{width:32px;height:32px;border-radius:50%;background:#0d0d0d;display:grid;place-items:center}
   /* ?bilde: brede striper til PNG-eksport */
   .render .wrap{max-width:none}
   .render .strip-scroll{overflow:visible}
@@ -272,16 +295,17 @@
 <section id="chatgpt">
   <div class="wrap">
     <h2>2. ChatGPT med Entur-appen</h2>
-    <p class="lead">Brukeren chatter i ChatGPT og har lagt til Enturs app. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skissen bruker ikke ChatGPTs egne merker.</p>
+    <p class="lead">Brukeren chatter i ChatGPT og har lagt til Enturs app. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skjermene følger ChatGPT-appen på iPhone.</p>
   </div>
   <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="chatgpt">
 
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone gpt">
-        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="sb"><b>10:50</b><span><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5l1.3 1.3 1.3-1.3a1.8 1.8 0 0 0-1.3-.5Z"/></svg><i class="bat">72</i></span></div>
+        <div class="gtop"><span class="circ"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round"><path d="M1 3.5h9M1 8.5h6"/></svg><i class="dot"></i></span><span class="pillbtns"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8.5 15.5l.7-3.5Z"/></svg><b>···</b></span></div>
         <div class="msgs">
           <div class="u">Jeg skal til Bjørnsons hjem på Aulestad lørdag og må være der før 12. Honnør, fra Oslo S.</div>
-          <div class="a"><div class="appchip"><i></i>Entur · søkte etter reiser</div>
+          <div class="a"><div class="appchip"><i></i>Entur</div>
             <div class="widget">
               <h4>Oslo S til Aulestad · 2 t 35 min</h4>
               <span class="pill rail">F6</span><span class="pill bus">140</span>
@@ -291,7 +315,7 @@
           <div class="a">Toget F6 går 08:02, og bussen 140 tar deg nesten frem til tunet kl. 10:37. Hvor gammel er du, og reiser du alene?</div>
           <div class="u">72, alene.</div>
         </div>
-        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+        <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
       <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Reisesøk gjennom Entur-appen</b><p>Søket trenger ingen innlogging.</p>
         <div class="tools"><span class="tool ext">reisesøk-MCP</span></div></div>
@@ -299,9 +323,10 @@
 
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone gpt">
-        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="sb"><b>10:50</b><span><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5l1.3 1.3 1.3-1.3a1.8 1.8 0 0 0-1.3-.5Z"/></svg><i class="bat">72</i></span></div>
+        <div class="gtop"><span class="circ"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round"><path d="M1 3.5h9M1 8.5h6"/></svg><i class="dot"></i></span><span class="pillbtns"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8.5 15.5l.7-3.5Z"/></svg><b>···</b></span></div>
         <div class="msgs">
-          <div class="a"><div class="appchip"><i></i>Entur · hentet priser</div>
+          <div class="a"><div class="appchip"><i></i>Entur</div>
             <div class="widget">
               <h4>Honnør, én reisende</h4>
               <div class="row"><span>Tog Oslo S–Lillehammer</span><span>262 kr</span></div>
@@ -316,7 +341,7 @@
             <div class="btn dark">Logg inn hos Entur</div>
           </div>
         </div>
-        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+        <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
       <div class="cap"><span class="n">STEG 2 · TILBUD OG INNLOGGING</span><b>Priser, så innlogging</b><p>Innloggingen knytter kjøpet til brukerens Entur-konto. Planlagt, ikke bygget.</p>
         <div class="tools"><span class="tool">get_offers</span><span class="tool ext">Entur-innlogging</span></div></div>
@@ -324,10 +349,11 @@
 
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone gpt">
-        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="sb"><b>10:50</b><span><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5l1.3 1.3 1.3-1.3a1.8 1.8 0 0 0-1.3-.5Z"/></svg><i class="bat">72</i></span></div>
+        <div class="gtop"><span class="circ"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round"><path d="M1 3.5h9M1 8.5h6"/></svg><i class="dot"></i></span><span class="pillbtns"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8.5 15.5l.7-3.5Z"/></svg><b>···</b></span></div>
         <div class="msgs">
           <div class="think">Innlogget som Entur-kunde</div>
-          <div class="a"><div class="appchip"><i></i>Entur · holdt av billetter</div>
+          <div class="a"><div class="appchip"><i></i>Entur</div>
             <div class="widget">
               <h4>Ordre 3N7URR0X · holdt av til 20:10</h4>
               <div class="row"><span>Tog F6, lør 08:02</span><span>Honnør</span></div>
@@ -338,7 +364,7 @@
           <div class="a">Skal jeg kjøpe dette for 309 kr? Oppgi i så fall mobilnummeret du bruker i Vipps.</div>
           <div class="u">Ja. 912 34 567</div>
         </div>
-        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+        <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
       <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse og mobilnummer</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
@@ -346,9 +372,10 @@
 
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone gpt">
-        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="sb"><b>10:50</b><span><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5l1.3 1.3 1.3-1.3a1.8 1.8 0 0 0-1.3-.5Z"/></svg><i class="bat">72</i></span></div>
+        <div class="gtop"><span class="circ"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round"><path d="M1 3.5h9M1 8.5h6"/></svg><i class="dot"></i></span><span class="pillbtns"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8.5 15.5l.7-3.5Z"/></svg><b>···</b></span></div>
         <div class="msgs">
-          <div class="a"><div class="appchip"><i></i>Entur · startet Vipps-betaling</div>
+          <div class="a"><div class="appchip"><i></i>Entur</div>
             <div class="widget">
               <h4>Godkjenn 309 kr i Vipps</h4>
               <div style="font-size:11.5px;color:#555">Ordre 3N7URR0X. Ingenting trekkes før du godkjenner. Forespørselen gjelder i rundt fem minutter.</div>
@@ -357,7 +384,7 @@
           </div>
           <div class="a">Åpne lenken og godkjenn. Jeg følger med på ordren og sier fra når billettene er klare.</div>
         </div>
-        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+        <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
       <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Ringer brukeren pay_order på nytt, kommer det ikke en ny betaling.</p>
         <div class="tools"><span class="tool">pay_order</span></div></div>
@@ -381,9 +408,10 @@
 
     <div class="shot">
       <span class="stamp">Skisse</span><div class="phone gpt">
-        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="sb"><b>10:50</b><span><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 7.5.6 9.6 9.6 0 0 0 .7 3.4l1.1 1.1a8 8 0 0 1 5.7-2.3Zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1a6.4 6.4 0 0 0-9 0l1.1 1.1c.9-.8 2.1-1.3 3.4-1.3Zm0 3.2c-.5 0-1 .2-1.3.5l1.3 1.3 1.3-1.3a1.8 1.8 0 0 0-1.3-.5Z"/></svg><i class="bat">72</i></span></div>
+        <div class="gtop"><span class="circ"><svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round"><path d="M1 3.5h9M1 8.5h6"/></svg><i class="dot"></i></span><span class="pillbtns"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 8.5 15.5l.7-3.5Z"/></svg><b>···</b></span></div>
         <div class="msgs">
-          <div class="a"><div class="appchip"><i></i>Entur · billetter utstedt</div>
+          <div class="a"><div class="appchip"><i></i>Entur</div>
             <div class="widget">
               <h4>Billetter, lørdag 14. nov <span class="ok">Gyldig</span></h4>
               <div class="row"><span>Tog F6, Oslo S 08:02<br><small style="color:#888">Honnør</small></span><span></span></div>
@@ -393,7 +421,7 @@
           </div>
           <div class="a">Betalingen gikk gjennom, og billettene ligger på Entur-kontoen din. På Lillehammer har du 16 minutter: bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
         </div>
-        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+        <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
       <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
         <div class="tools"><span class="tool">get_order</span></div></div>
