@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skisser av billettkjøpet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;--bg-tint:#f6f6f9;--bg-subtle:#eaeaf1;
+    --brand:#292b6a;--brand-soft:#54568c;
+    --accent:#f73e3b;
+    --canary:#ffca28;--canary-soft:#fff4cd;--canary-ink:#775b09;
+    --ink:#08091c;--ink-soft:#212233;--muted:#6e6f73;--subtle:#949699;
+    --border:#e3e6e8;
+    --font-body:"Inter","Helvetica Neue",Arial,system-ui,sans-serif;--font-mono:"DM Mono",ui-monospace,monospace;
+    /* reiseagenten */
+    --ra-bg:#181c56;--ra-card-border:#e9e9e9;--ra-muted:#8d8e9c;--ra-rail:#2d6bc9;--ra-bus:#c5044e;
+    /* wireframe */
+    --wf-line:#b9bac0;--wf-fill:#eeeef1;--wf-ink:#55565c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink-soft);font-family:var(--font-body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.15;color:var(--brand)}
+  p{margin:0 0 1rem;max-width:68ch}
+  .hero{background:var(--brand);color:#fff}
+  .hero .inner{max-width:1180px;margin:0 auto;padding:72px 24px 60px}
+  .crumb{font-family:var(--font-mono);font-size:.76rem;color:rgba(255,255,255,.7);text-decoration:none;display:inline-block;margin-bottom:24px}
+  .hero h1{color:#fff;font-size:clamp(2.1rem,5vw,3.2rem);margin:0 0 .35em;max-width:22ch}
+  .hero p{color:rgba(255,255,255,.86);font-size:1.1rem;max-width:62ch}
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .jump a{font-family:var(--font-mono);font-size:.76rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 13px;color:#fff;text-decoration:none}
+  section{padding:56px 0;border-top:1px solid var(--border)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:0 0 .4em}
+  .lead{color:var(--muted);font-size:1.05rem}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 0}
+  .facts div{background:var(--bg-tint);border:1px solid var(--border);border-radius:4px;padding:16px;font-size:.92rem}
+  .facts b{display:block;color:var(--brand);margin-bottom:4px}
+  @media(max-width:760px){.facts{grid-template-columns:1fr}}
+
+  /* stripe med telefoner */
+  .strip-scroll{overflow-x:auto;margin:28px -24px 0;padding:0 24px 12px}
+  .strip{display:flex;gap:22px;width:max-content;padding:24px;background:var(--bg-tint);border:1px solid var(--border);border-radius:6px}
+  .shot{width:300px;flex:none;position:relative;padding-top:14px}
+  .phone{width:300px;height:640px;border-radius:30px;border:9px solid #1d1e26;background:#fff;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(8,9,28,.12)}
+  .cap{margin-top:14px;font-size:.84rem;color:var(--ink-soft)}
+  .cap .n{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);display:block;margin-bottom:2px}
+  .cap b{color:var(--brand)}
+  .cap p{margin:4px 0 0;color:var(--muted)}
+  .tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .tool{font-family:var(--font-mono);font-size:.68rem;padding:2px 7px;border-radius:999px;border:1px solid var(--brand-soft);color:var(--brand)}
+  .tool.ext{border-style:dashed;color:var(--muted);border-color:var(--subtle)}
+  .stamp{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:5;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;background:var(--canary);color:var(--canary-ink);padding:2px 6px;border-radius:3px}
+  .stamp.real{background:#d9f2e0;color:#1d6b35}
+
+  /* felles chatbiter */
+  .msgs{flex:1;overflow:hidden;padding:12px 12px 6px;display:flex;flex-direction:column;gap:9px;font-size:12.5px;line-height:1.45}
+  .u{align-self:flex-end;max-width:84%;padding:8px 11px;border-radius:14px 14px 4px 14px}
+  .a{align-self:flex-start;max-width:94%}
+  .compose{margin:6px 10px 10px;border-radius:999px;padding:9px 14px;font-size:12px}
+  .btn{display:block;text-align:center;border-radius:999px;padding:8px 12px;font-weight:600;font-size:12.5px;margin-top:8px}
+
+  /* --- Entur reiseagent --- */
+  .ra{background:var(--ra-bg);color:rgba(255,255,255,.92)}
+  .ra .top{height:40px;display:flex;align-items:center;padding:0 14px;color:rgba(255,255,255,.7);font-size:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .ra .u{background:rgba(255,255,255,.12)}
+  .ra .a{color:rgba(255,255,255,.9)}
+  .ra .compose{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:rgba(255,255,255,.45)}
+  .card{background:#fff;color:#181c56;border:1px solid var(--ra-card-border);border-radius:8px;padding:11px 12px;font-size:12px}
+  .card .d{font-size:10.5px;color:var(--ra-muted);font-weight:500}
+  .card h4{margin:2px 0 8px;font-size:13px}
+  .row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid #eee}
+  .row:first-of-type{border-top:none}
+  .row small{display:block;color:var(--ra-muted);font-size:10.5px}
+  .row.tot{font-weight:700;border-top:1.5px solid #181c56;margin-top:2px}
+  .pill{display:inline-flex;align-items:center;gap:4px;color:#fff;font-weight:600;font-size:11px;border-radius:6px;padding:2px 7px;margin-right:4px}
+  .pill.rail{background:var(--ra-rail)}.pill.bus{background:var(--ra-bus)}
+  .hint{font-size:10.5px;color:var(--ra-muted);margin-top:6px}
+  .ra .btn.primary{background:#fff;color:#181c56}
+  .vippsbtn{background:#ff5b24;color:#fff}
+  .ok{display:inline-block;font-size:10.5px;font-weight:600;color:#1d6b35;background:#e3f4e8;border-radius:999px;padding:1px 8px}
+  .realshot{width:100%;height:100%;object-fit:cover;object-position:top}
+
+  /* --- ChatGPT-app (nøytral skisse, ingen merker) --- */
+  .gpt{background:#fff;color:#1f1f1f}
+  .gpt .top{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:13px;font-weight:600;border-bottom:1px solid #f0f0f0}
+  .gpt .top span{font-weight:400;color:#8e8e8e;font-size:11px}
+  .gpt .u{background:#f2f2f2}
+  .gpt .compose{border:1px solid #e3e3e3;color:#9b9b9b;display:flex;justify-content:space-between}
+  .gpt .appchip{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:#5d5d5d;margin-bottom:5px}
+  .gpt .appchip i{width:14px;height:14px;border-radius:4px;background:#181c56;display:inline-block}
+  .gpt .widget{border:1px solid #e5e5e5;border-radius:12px;padding:10px 11px;background:#fff;font-size:12px}
+  .gpt .widget h4{margin:0 0 6px;font-size:12.5px;color:#181c56}
+  .gpt .btn.dark{background:#1f1f1f;color:#fff}
+  .gpt .btn.line{border:1px solid #d6d6d6;color:#1f1f1f}
+  .gpt .think{font-size:10.5px;color:#9b9b9b}
+
+  /* --- wireframe (Vipps-skjermer vi ikke vet hvordan ser ut) --- */
+  .wf{background:#fafafa;color:var(--wf-ink);font-family:var(--font-body)}
+  .wf .top{height:42px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1.5px dashed var(--wf-line);font-size:12px;font-weight:600}
+  .wf .top i{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--wf-line);background:var(--wf-fill);display:inline-block}
+  .wf .u{background:#fff;border:1.5px solid var(--wf-line)}
+  .wf .box{border:1.5px solid var(--wf-line);border-radius:8px;background:#fff;padding:9px 10px;font-size:11.5px}
+  .wf .box h4{margin:0 0 5px;font-size:12px;color:#3c3d42}
+  .wf .bar{height:7px;border-radius:4px;background:var(--wf-fill);margin:5px 0}
+  .wf .r{display:flex;justify-content:space-between;padding:4px 0;border-top:1px dashed #d9d9de}
+  .wf .r:first-of-type{border-top:none}
+  .wf .btn.wfb{border:1.5px solid #3c3d42;background:#3c3d42;color:#fff}
+  .wf .btn.wfl{border:1.5px solid var(--wf-line);color:var(--wf-ink)}
+  .wf .compose{border:1.5px dashed var(--wf-line);color:#a3a4aa}
+  .wf .open{border:1.5px dashed #c99a06;background:var(--canary-soft);color:var(--canary-ink);border-radius:8px;padding:8px 10px;font-size:11px}
+  .wf .center{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px;gap:10px;text-align:center}
+  .wf .amount{font-size:30px;font-weight:700;color:#3c3d42}
+  .wf .sheet{margin-top:auto;border-top:1.5px solid var(--wf-line);border-radius:16px 16px 0 0;background:#fff;padding:14px}
+  .wf .dim{position:absolute;inset:42px 0 0 0;background:rgba(60,61,66,.18)}
+
+  .notes{margin-top:26px}
+  .notes li{margin-bottom:8px;max-width:80ch}
+  ul.open{list-style:none;padding:0;margin:0;max-width:80ch}
+  ul.open li{position:relative;padding:12px 0 12px 28px;border-bottom:1px solid var(--border)}
+  ul.open li::before{content:"";position:absolute;left:0;top:20px;width:9px;height:9px;background:var(--canary);border-radius:2px}
+  /* ?bilde: brede striper til PNG-eksport */
+  .render .wrap{max-width:none}
+  .render .strip-scroll{overflow:visible}
+  footer{padding:40px 0 60px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<script>if(location.search.includes("bilde"))document.body.classList.add("render")</script>
+
+<header class="hero">
+  <div class="inner">
+    <a class="crumb" href="agentisk-billettkjop.html">← Brukerflyt for agentisk billettkjøp</a>
+    <h1>Samme reise, kjøpt i tre agenter</h1>
+    <p>Skisser av hvordan kjøpet av tog og buss til Aulestad kan se ut i Vipps' kjøpsassistent, i ChatGPT og i Enturs egen reiseagent. Alle tre bruker den samme salgs-MCP-en, så forskjellene ligger i hvem brukeren er hos og hvordan betalingen godkjennes.</p>
+    <nav class="jump">
+      <a href="#vipps">Vipps kjøpsassistent</a>
+      <a href="#chatgpt">ChatGPT</a>
+      <a href="#reiseagent">Entur reiseagent</a>
+      <a href="#apne">Åpne spørsmål</a>
+    </nav>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Reisen og reglene</h2>
+    <p class="lead">Lørdag 14. november, Oslo S til Bjørnstjerne Bjørnsons hjem på Aulestad, fremme før kl. 12, én reisende med honnør. Reiseforslaget er hentet fra Enturs reisesøk. Prisene er eksempler.</p>
+    <div class="facts">
+      <div><b>Reisen</b>Tog F6 Oslo S 08:02 til Lillehammer 09:59. Buss 140 fra Lillehammer skysstasjon 10:15 til Aulestad 10:37. Fire minutter å gå til tunet.</div>
+      <div><b>Salgs-MCP-en</b>Fem verktøy: <code>get_offers</code>, <code>reserve_offers</code>, <code>pay_order</code>, <code>get_order</code> og <code>release_order</code>. Merket under hver skjerm viser hvilket verktøy som kalles.</div>
+      <div><b>Betalingen i dag</b>Salgs-MCP-en lager en Vipps-lenke som brukeren åpner og godkjenner i Vipps-appen. Ingenting trekkes før godkjenningen. Trekk fra en Vipps-avtale er utsatt.</div>
+    </div>
+    <p class="notes" style="margin-top:22px;color:var(--muted);font-size:.92rem">Gule merker betyr skisse. Grønt merke betyr skjermbilde fra reiseagenten slik den ser ut i dag. Vipps-skjermene er tegnet som wireframes fordi vi ikke vet hvordan de vil se ut.</p>
+  </div>
+</section>
+
+<!-- ============================ VIPPS ============================ -->
+<section id="vipps">
+  <div class="wrap">
+    <h2>1. Vipps kjøpsassistent</h2>
+    <p class="lead">Brukeren er allerede innlogget i Vipps. Kjøpsassistenten kaller salgs-MCP-en med Vipps' eget token, og godkjenningen skjer i samme app. Det gir den korteste flyten: ingen innlogging hos Entur, ingen spørsmål om mobilnummer og ingen lenke ut.</p>
+  </div>
+  <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="vipps">
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Kjøpsassistent</div>
+        <div class="msgs">
+          <div class="u">Jeg skal til Bjørnsons hjem på Aulestad lørdag og må være der før 12. Honnør.</div>
+          <div class="a">Jeg fant en reise med tog og buss fra Oslo S:</div>
+          <div class="box">
+            <h4>Lørdag 14. nov · 2 t 35 min</h4>
+            <div class="r"><span>Tog F6 Oslo S</span><span>08:02</span></div>
+            <div class="r"><span>Bytte Lillehammer, 16 min</span><span>09:59</span></div>
+            <div class="r"><span>Buss 140 til Aulestad</span><span>10:37</span></div>
+          </div>
+          <div class="a">Hvor gammel er du? Honnør gjelder fra 67 år.</div>
+          <div class="u">72, og jeg reiser alene.</div>
+        </div>
+        <div class="compose">Skriv til assistenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Brukeren spør i Vipps-appen</b><p>Assistenten bruker Enturs reisesøk og spør om alder før den henter priser.</p>
+        <div class="tools"><span class="tool ext">reisesøk-MCP</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Kjøpsassistent</div>
+        <div class="msgs">
+          <div class="a">Her er prisen for hele reisen med honnør:</div>
+          <div class="box">
+            <h4>Billetter fra Entur</h4>
+            <div class="r"><span>Tog Oslo S–Lillehammer<br><small>Honnør</small></span><span>262 kr</span></div>
+            <div class="r"><span>Buss Lillehammer–Aulestad<br><small>Honnør</small></span><span>47 kr</span></div>
+            <div class="r"><b>Totalt</b><b>309 kr</b></div>
+          </div>
+          <div class="a">Prisen gjelder i 30 minutter. Skal jeg holde av billettene?</div>
+          <div class="u">Ja, gjør det.</div>
+        </div>
+        <div class="compose">Skriv til assistenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 2 · TILBUD</span><b>Pris per etappe og totalt</b><p>Salgs-MCP-en viser hvilken kategori som ble brukt på hver etappe.</p>
+        <div class="tools"><span class="tool">get_offers</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Kjøpsassistent</div>
+        <div class="msgs">
+          <div class="a">Billettene er holdt av til kl. 20:10.</div>
+          <div class="box">
+            <h4>Ordre 3N7URR0X</h4>
+            <div class="r"><span>Tog F6, lør 08:02</span><span>Honnør</span></div>
+            <div class="r"><span>Buss 140, lør 10:15</span><span>Honnør</span></div>
+            <div class="r"><b>Totalt</b><b>309 kr</b></div>
+          </div>
+          <div class="a">Vil du kjøpe dette for 309 kr?</div>
+          <div class="btn wfb">Ja, kjøp</div>
+          <div class="btn wfl">Nei, slipp billettene</div>
+        </div>
+        <div class="compose">Skriv til assistenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av i én ordre</b><p>Vipps kjenner mobilnummeret, så brukeren blir ikke spurt om det.</p>
+        <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Kjøpsassistent</div>
+        <div class="dim"></div>
+        <div style="flex:1"></div>
+        <div class="sheet" style="position:relative;z-index:2">
+          <div style="font-size:11px;color:#8a8b90">Betal til</div>
+          <div style="font-weight:700;color:#3c3d42;font-size:14px">Entur AS</div>
+          <div class="amount" style="margin:8px 0">309 kr</div>
+          <div class="box" style="font-size:11px">Oslo S–Aulestad, lørdag 14.11<br>Tog og buss, honnør<br>Ordre 3N7URR0X</div>
+          <div class="btn wfb" style="margin-top:12px">Godkjenn</div>
+          <div class="btn wfl">Avbryt</div>
+        </div>
+      </div>
+      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Godkjenn uten å forlate appen</b><p>Teksten på skjermen skrives av salgs-MCP-en ut fra ordren, ikke av assistenten.</p>
+        <div class="tools"><span class="tool">pay_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Kjøpsassistent</div>
+        <div class="msgs">
+          <div class="a">Betalt. Billettene er klare.</div>
+          <div class="box">
+            <h4>Lørdag 14. nov</h4>
+            <div class="r"><span>Tog F6, Oslo S 08:02</span><span>Gyldig</span></div>
+            <div class="r"><span>Buss 140, Lillehammer 10:15</span><span>Gyldig</span></div>
+          </div>
+          <div class="a">På Lillehammer har du 16 minutter. Bussen går fra skysstasjonen, to minutter å gå fra toget.</div>
+          <div class="open"><b>Ikke avklart:</b> hvor brukeren viser frem billetten. I Vipps, i Entur-appen eller som lenke.</div>
+        </div>
+        <div class="compose">Skriv til assistenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 5 · BILLETTER</span><b>Billetter og overgang</b><p>Assistenten spør etter status til billettene er utstedt.</p>
+        <div class="tools"><span class="tool">get_order</span></div></div>
+    </div>
+
+  </div></div></div>
+</section>
+
+<!-- ============================ CHATGPT ============================ -->
+<section id="chatgpt">
+  <div class="wrap">
+    <h2>2. ChatGPT med Entur-appen</h2>
+    <p class="lead">Brukeren chatter i ChatGPT og har lagt til Enturs app. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skissen bruker ikke ChatGPTs egne merker.</p>
+  </div>
+  <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="chatgpt">
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone gpt">
+        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="msgs">
+          <div class="u">Jeg skal til Bjørnsons hjem på Aulestad lørdag og må være der før 12. Honnør, fra Oslo S.</div>
+          <div class="a"><div class="appchip"><i></i>Entur · søkte etter reiser</div>
+            <div class="widget">
+              <h4>Oslo S til Aulestad · 2 t 35 min</h4>
+              <span class="pill rail">F6</span><span class="pill bus">140</span>
+              <div class="hint">08:02 → 10:37 · bytte på Lillehammer, 16 min</div>
+            </div>
+          </div>
+          <div class="a">Toget F6 går 08:02, og bussen 140 tar deg nesten frem til tunet kl. 10:37. Hvor gammel er du, og reiser du alene?</div>
+          <div class="u">72, alene.</div>
+        </div>
+        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+      </div>
+      <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Reisesøk gjennom Entur-appen</b><p>Søket trenger ingen innlogging.</p>
+        <div class="tools"><span class="tool ext">reisesøk-MCP</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone gpt">
+        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="msgs">
+          <div class="a"><div class="appchip"><i></i>Entur · hentet priser</div>
+            <div class="widget">
+              <h4>Honnør, én reisende</h4>
+              <div class="row"><span>Tog Oslo S–Lillehammer</span><span>262 kr</span></div>
+              <div class="row"><span>Buss Lillehammer–Aulestad</span><span>47 kr</span></div>
+              <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
+              <div class="hint">Prisen gjelder i 30 minutter</div>
+            </div>
+          </div>
+          <div class="a">For å kjøpe må du logge inn hos Entur. Da havner billettene på Entur-kontoen din.</div>
+          <div class="widget" style="text-align:center">
+            <div style="font-size:11px;color:#6e6e6e">Entur ber om tilgang til å kjøpe billetter for deg</div>
+            <div class="btn dark">Logg inn hos Entur</div>
+          </div>
+        </div>
+        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+      </div>
+      <div class="cap"><span class="n">STEG 2 · TILBUD OG INNLOGGING</span><b>Priser, så innlogging</b><p>Innloggingen knytter kjøpet til brukerens Entur-konto. Planlagt, ikke bygget.</p>
+        <div class="tools"><span class="tool">get_offers</span><span class="tool ext">Entur-innlogging</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone gpt">
+        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="msgs">
+          <div class="think">Innlogget som Entur-kunde</div>
+          <div class="a"><div class="appchip"><i></i>Entur · holdt av billetter</div>
+            <div class="widget">
+              <h4>Ordre 3N7URR0X · holdt av til 20:10</h4>
+              <div class="row"><span>Tog F6, lør 08:02</span><span>Honnør</span></div>
+              <div class="row"><span>Buss 140, lør 10:15</span><span>Honnør</span></div>
+              <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
+            </div>
+          </div>
+          <div class="a">Skal jeg kjøpe dette for 309 kr? Oppgi i så fall mobilnummeret du bruker i Vipps.</div>
+          <div class="u">Ja. 912 34 567</div>
+        </div>
+        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+      </div>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Bekreftelse og mobilnummer</b><p>Agenten må få et tydelig ja til reise, reisende og totalpris før betaling.</p>
+        <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone gpt">
+        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="msgs">
+          <div class="a"><div class="appchip"><i></i>Entur · startet Vipps-betaling</div>
+            <div class="widget">
+              <h4>Godkjenn 309 kr i Vipps</h4>
+              <div style="font-size:11.5px;color:#555">Ordre 3N7URR0X. Ingenting trekkes før du godkjenner. Forespørselen gjelder i rundt fem minutter.</div>
+              <div class="btn vippsbtn">Åpne Vipps</div>
+            </div>
+          </div>
+          <div class="a">Åpne lenken og godkjenn. Jeg følger med på ordren og sier fra når billettene er klare.</div>
+        </div>
+        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+      </div>
+      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Ringer brukeren pay_order på nytt, kommer det ikke en ny betaling.</p>
+        <div class="tools"><span class="tool">pay_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Vipps</div>
+        <div class="center">
+          <div style="font-size:11px;color:#8a8b90">Betal til</div>
+          <div style="font-weight:700;color:#3c3d42;font-size:15px">Entur AS</div>
+          <div class="amount">309 kr</div>
+          <div class="box" style="font-size:11px;text-align:left">Oslo S–Aulestad, lørdag 14.11<br>Tog og buss, honnør<br>Ordre 3N7URR0X</div>
+          <div class="btn wfb">Godkjenn</div>
+          <div class="btn wfl" style="margin-top:0">Avbryt</div>
+        </div>
+      </div>
+      <div class="cap"><span class="n">STEG 5 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Brukeren sjekker mottaker, beløp og ordre, og godkjenner. Deretter tilbake til ChatGPT.</p>
+        <div class="tools"><span class="tool ext">Vipps-appen</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone gpt">
+        <div class="top">ChatGPT <span>Entur-appen er på</span></div>
+        <div class="msgs">
+          <div class="a"><div class="appchip"><i></i>Entur · billetter utstedt</div>
+            <div class="widget">
+              <h4>Billetter, lørdag 14. nov <span class="ok">Gyldig</span></h4>
+              <div class="row"><span>Tog F6, Oslo S 08:02<br><small style="color:#888">Honnør</small></span><span></span></div>
+              <div class="row"><span>Buss 140, Lillehammer 10:15<br><small style="color:#888">Honnør</small></span><span></span></div>
+              <div class="hint">Ordre 3N7URR0X</div>
+            </div>
+          </div>
+          <div class="a">Betalingen gikk gjennom, og billettene ligger på Entur-kontoen din. På Lillehammer har du 16 minutter: bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
+        </div>
+        <div class="compose"><span>Spør om hva som helst</span><span>↑</span></div>
+      </div>
+      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
+        <div class="tools"><span class="tool">get_order</span></div></div>
+    </div>
+
+  </div></div></div>
+</section>
+
+<!-- ============================ REISEAGENT ============================ -->
+<section id="reiseagent">
+  <div class="wrap">
+    <h2>3. Enturs reiseagent</h2>
+    <p class="lead">Reiseagenten finnes i dag og finner reisen til Aulestad. Det første skjermbildet er tatt fra staging 2. november. Der sender «Kjøp denne reisen» brukeren videre til Entur-appen. Skissene etter viser kjøpet gjort i samtalen, med de samme kortene agenten bruker i dag.</p>
+  </div>
+  <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="reiseagent">
+
+    <div class="shot">
+      <span class="stamp real">Finnes i dag</span><div class="phone" style="background:#181c56">
+        <img class="realshot" src="skisser/reiseagent-staging.png" alt="Reiseagenten på staging foreslår tog F6 fra Oslo S 08:02 og buss 140 fra Lillehammer 10:15, fremme på Aulestad 10:37">
+      </div>
+      <div class="cap"><span class="n">STEG 1 · REISESØK</span><b>Reiseforslaget slik det er i dag</b><p>Agenten nevner honnør, men kan ikke selge billetten selv.</p>
+        <div class="tools"><span class="tool ext">Journey Planner</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone ra">
+        <div class="top">⌂</div>
+        <div class="msgs">
+          <div class="u">Kan du kjøpe billettene for meg?</div>
+          <div class="a">Ja. Honnør gjelder fra 67 år. Hvor gammel er du, og reiser du alene?</div>
+          <div class="u">72, alene.</div>
+          <div class="card">
+            <div class="d">Lørdag 14. nov · honnør, én reisende</div>
+            <div class="row"><span><span class="pill rail">F6</span>Oslo S–Lillehammer</span><span>262 kr</span></div>
+            <div class="row"><span><span class="pill bus">140</span>Lillehammer–Aulestad</span><span>47 kr</span></div>
+            <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
+            <div class="hint">Prisen gjelder i 30 minutter</div>
+            <div class="btn" style="background:#181c56;color:#fff">Hold av billettene</div>
+          </div>
+        </div>
+        <div class="compose">Spør reiseagenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 2 · TILBUD</span><b>Pris i samme kortstil</b><p>Kortet erstatter lenken til Entur-appen.</p>
+        <div class="tools"><span class="tool">get_offers</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone ra">
+        <div class="top">⌂</div>
+        <div class="msgs">
+          <div class="card">
+            <div class="d">Ordre 3N7URR0X · holdt av til 20:10</div>
+            <h4>Oslo S til Aulestad</h4>
+            <div class="row"><span><span class="pill rail">F6</span>08:02 fra Oslo S</span><span>Honnør</span></div>
+            <div class="row"><span><span class="pill bus">140</span>10:15 fra Lillehammer</span><span>Honnør</span></div>
+            <div class="row tot"><span>Totalt</span><span>309 kr</span></div>
+          </div>
+          <div class="a">Billettene er holdt av. Vil du kjøpe dem for 309 kr? Skriv mobilnummeret du bruker i Vipps.</div>
+          <div class="u">Ja, 912 34 567</div>
+        </div>
+        <div class="compose">Spør reiseagenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av, så bekreftelse</b><p>Ja-et i chatten blir bedt om. Det salgs-MCP-en håndhever, er godkjenningen i Vipps.</p>
+        <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone ra">
+        <div class="top">⌂</div>
+        <div class="msgs">
+          <div class="card">
+            <h4>Godkjenn 309 kr i Vipps</h4>
+            <div style="font-size:11.5px;color:#55566f">Ordre 3N7URR0X. Ingenting trekkes før du godkjenner. Forespørselen gjelder i rundt fem minutter.</div>
+            <div class="btn vippsbtn">Åpne Vipps</div>
+          </div>
+          <div class="a">Jeg følger med og sier fra når billettene er klare.</div>
+        </div>
+        <div class="compose">Spør reiseagenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Samme betalingslenke som i ChatGPT.</p>
+        <div class="tools"><span class="tool">pay_order</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone wf">
+        <div class="top"><i></i>Vipps</div>
+        <div class="center">
+          <div style="font-size:11px;color:#8a8b90">Betal til</div>
+          <div style="font-weight:700;color:#3c3d42;font-size:15px">Entur AS</div>
+          <div class="amount">309 kr</div>
+          <div class="box" style="font-size:11px;text-align:left">Oslo S–Aulestad, lørdag 14.11<br>Tog og buss, honnør<br>Ordre 3N7URR0X</div>
+          <div class="btn wfb">Godkjenn</div>
+          <div class="btn wfl" style="margin-top:0">Avbryt</div>
+        </div>
+      </div>
+      <div class="cap"><span class="n">STEG 5 · GODKJENNING</span><b>Godkjenning i Vipps-appen</b><p>Samme skjerm som fra ChatGPT. Deretter tilbake til reiseagenten.</p>
+        <div class="tools"><span class="tool ext">Vipps-appen</span></div></div>
+    </div>
+
+    <div class="shot">
+      <span class="stamp">Skisse</span><div class="phone ra">
+        <div class="top">⌂</div>
+        <div class="msgs">
+          <div class="card">
+            <div class="d" style="display:flex;justify-content:space-between"><span>Lørdag 14. nov</span><span class="ok">Billetter utstedt</span></div>
+            <h4>Oslo S til Aulestad</h4>
+            <span class="pill rail">F6</span><span class="pill bus">140</span>
+            <div class="row" style="margin-top:6px"><span>08:02</span><span>10:15</span><span>10:37</span></div>
+            <div class="hint">Honnør på begge etappene · ordre 3N7URR0X</div>
+          </div>
+          <div class="a">Billettene er klare. På Lillehammer har du 16 minutter. Bussen går fra skysstasjonen, to minutter å gå fra toget. Fra holdeplassen Aulestad er det fire minutter til tunet.</div>
+        </div>
+        <div class="compose">Spør reiseagenten</div>
+      </div>
+      <div class="cap"><span class="n">STEG 6 · BILLETTER</span><b>Billetter og overgang</b><p>Agenten spør etter status til billettene er utstedt.</p>
+        <div class="tools"><span class="tool">get_order</span></div></div>
+    </div>
+
+  </div></div></div>
+</section>
+
+<section id="apne">
+  <div class="wrap">
+    <h2>Forskjellene, kort</h2>
+    <ul class="notes">
+      <li><b>Vipps kjøpsassistent</b> er kortest. Brukeren er allerede innlogget i Vipps, og godkjenningen skjer i samme app. Vipps kaller salgs-MCP-en med et eget token, som allerede er satt opp i staging.</li>
+      <li><b>ChatGPT</b> krever innlogging hos Entur før kjøpet og en tur ut til Vipps-appen og tilbake. Innloggingen er planlagt, ikke bygget.</li>
+      <li><b>Reiseagenten</b> har reisesøket i dag. Salget kan legges til med de samme kortene og den samme Vipps-lenken som i ChatGPT.</li>
+    </ul>
+    <h2 style="margin-top:36px">Åpne spørsmål</h2>
+    <ul class="open">
+      <li>Hvor viser brukeren frem billetten etter et kjøp i Vipps: i Vipps, i Entur-appen eller som lenke?</li>
+      <li>Kan Vipps' kjøpsassistent åpne betalingen direkte i appen, eller må den også gå via lenken?</li>
+      <li>Hvem eier kjøpet når det starter i Vipps: Entur-kontoen til brukeren, eller ingen konto?</li>
+      <li>Honnør på bussen: har operatøren en honnørprofil? Hvis ikke, viser salgs-MCP-en voksenpris for den etappen, og agenten må si fra.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Skisser, ikke design. Reiseforslaget er hentet fra Enturs reisesøk 2. november 2026. Prisene, ordrenummeret og mobilnummeret er eksempler. Flyten følger salgs-MCP-en i <code>entur/kix-salesmcp</code>.</div>
+</footer>
+
+</body>
+</html>

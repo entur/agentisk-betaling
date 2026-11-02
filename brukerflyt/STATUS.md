@@ -9,6 +9,8 @@ Førsteutkast til brukerflyten for demoen med Vipps MobilePay. Agenten kjøper b
 | `agentisk-billettkjop.html` | Oversikt med begge reisene i ett kjøp, og lenker til hvert use-case |
 | `bergen.html` | Use-case 1: tog Oslo S til Bergen med vindusplass i kjøreretningen |
 | `lillehammer.html` | Use-case 2: tog og buss Oslo S til Aulestad i Gausdal, honnørbillett |
+| `skisser.html` | Skisser av Aulestad-kjøpet i Vipps' kjøpsassistent, ChatGPT og Enturs reiseagent, etter verktøyene i `entur/kix-salesmcp` |
+| `skisser/*.png` | Én stripe per agent til deling i Slack. Lages på nytt fra `skisser.html?bilde` (se under) |
 | `*.mmd` | Mermaid-kilden til hvert diagram. Sidene har samme kode innebygd |
 | `chatgpt-flyt.png` | Oversiktsdiagrammet som bilde, til deling i Slack |
 
@@ -19,6 +21,10 @@ Endres et diagram, må både `.mmd`-filen og den innebygde koden i HTML-siden op
 ```
 npx -y @mermaid-js/mermaid-cli@11.4.2 -i chatgpt-flyt.mmd -o chatgpt-flyt.png -s 2 -b white
 ```
+
+Skissestripene tas som element-skjermbilder av `#vipps`, `#chatgpt` og `#reiseagent` på `skisser.html?bilde` i et vindu som er minst 2100 px bredt, med enhetsskala 2.
+
+Diagrammene i `*.mmd` er eldre enn salgs-MCP-en. De viser trekk fra Vipps-avtale og push-betaling, mens salgs-MCP-en i dag lager en Vipps-lenke som brukeren godkjenner i appen. Thomas' oppdaterte diagrammer ligger i `entur/kix-salesmcp` under `docs/flows/`.
 
 ## Neste steg
 
