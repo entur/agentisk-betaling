@@ -171,12 +171,12 @@
 
 <section>
   <div class="wrap">
-    <h2>Reisen og reglene</h2>
+    <h2>Reisen og salgs-MCP-en</h2>
     <p class="lead">Lørdag 14. november, Oslo S til Bjørnstjerne Bjørnsons hjem på Aulestad, fremme før kl. 12, én reisende med honnør. Reiseforslaget er hentet fra Enturs reisesøk. Prisene er eksempler.</p>
     <div class="facts">
       <div><b>Reisen</b>Tog F6 Oslo S 08:02 til Lillehammer 09:59. Buss 140 fra Lillehammer skysstasjon 10:15 til Aulestad 10:37. Fire minutter å gå til tunet.</div>
       <div><b>Salgs-MCP-en</b>Fem verktøy: <code>get_offers</code>, <code>reserve_offers</code>, <code>pay_order</code>, <code>get_order</code> og <code>release_order</code>. Merket under hver skjerm viser hvilket verktøy som kalles.</div>
-      <div><b>Betalingen i dag</b>Salgs-MCP-en lager en Vipps-lenke som brukeren åpner og godkjenner i Vipps-appen. Ingenting trekkes før godkjenningen. Trekk fra en Vipps-avtale er utsatt.</div>
+      <div><b>Betalingen i dag</b>Salgs-MCP-en lager en Vipps-lenke. Lenken åpner en side hos Vipps der brukeren skriver eller bekrefter mobilnummeret, og betalingen godkjennes i Vipps-appen. Ingenting trekkes før godkjenningen. Trekk fra en Vipps-avtale er utsatt.</div>
     </div>
     <p class="notes" style="margin-top:22px;color:var(--muted);font-size:.92rem">Gule merker betyr skisse. Grønt merke betyr skjermbilde fra reiseagenten slik den ser ut i dag. Vipps-skjermene er tegnet som wireframes fordi vi ikke vet hvordan de vil se ut.</p>
   </div>
@@ -186,7 +186,7 @@
 <section id="vipps">
   <div class="wrap">
     <h2>1. Vipps kjøpsassistent</h2>
-    <p class="lead">Brukeren er allerede innlogget i Vipps. Kjøpsassistenten kaller salgs-MCP-en med Vipps' eget token, og godkjenningen skjer i samme app. Det gir trolig den korteste flyten: ingen innlogging hos Entur, ingen spørsmål om mobilnummer og ingen lenke ut, hvis Vipps kan åpne betalingen direkte i appen.</p>
+    <p class="lead">Brukeren er allerede innlogget i Vipps. Kjøpsassistenten kaller salgs-MCP-en med Vipps' eget token, og godkjenningen skjer i samme app. Det gir trolig den korteste flyten. Brukeren slipper innlogging hos Entur, og kan Vipps åpne betalingen direkte i appen, slipper brukeren også lenken ut.</p>
   </div>
   <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="vipps">
 
@@ -248,7 +248,7 @@
         </div>
         <div class="compose">Skriv til assistenten</div>
       </div>
-      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av i én ordre</b><p>Vipps kjenner mobilnummeret, så brukeren blir ikke spurt om det.</p>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av i én ordre</b><p>Vipps kjenner mobilnummeret, så siden med nummerfeltet faller bort.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
     </div>
 
@@ -296,7 +296,7 @@
 <section id="chatgpt">
   <div class="wrap">
     <h2>2. ChatGPT med Entur koblet til</h2>
-    <p class="lead">Brukeren chatter i ChatGPT og har koblet til Entur. Første versjon er en testkobling som egen MCP-server, ikke en publisert plugin. ChatGPT er en åpen agent, så brukeren må logge inn hos Entur før kjøpet, og betalingen er en lenke ut til Vipps og tilbake. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Skjermene følger ChatGPT-appen på iPhone.</p>
+    <p class="lead">Brukeren chatter i ChatGPT og har koblet til Entur. Første versjon er en testkobling som egen MCP-server, ikke en publisert plugin. Entur vet ikke hvem brukeren er, så brukeren må logge inn hos Entur før kjøpet. Innloggingen er planlagt i salgs-MCP-en, men ikke bygget ennå. Betalingen er en lenke ut til Vipps og tilbake. Skjermene følger ChatGPT-appen på iPhone.</p>
   </div>
   <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="chatgpt">
 
@@ -387,7 +387,7 @@
         </div>
         <div class="gcomp"><span class="plus">+</span><span class="ph">Follow up</span><svg width="13" height="16" viewBox="0 0 13 18" fill="none" stroke="#0d0d0d" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="1" width="6" height="10" rx="3"/><path d="M1 8.5a5.5 5.5 0 0 0 11 0M6.5 14v3"/></svg><span class="send"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5M5 12l7-7 7 7"/></svg></span></div>
       </div>
-      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Ringer brukeren pay_order på nytt, kommer det ikke en ny betaling. ChatGPT kan be om en egen bekreftelse før reservasjonen og betalingen, så det kan bli tre ja: i chatten, i ChatGPT og i Vipps. Når ChatGPT gjør det, er ikke avklart.</p>
+      <div class="cap"><span class="n">STEG 4 · BETALING</span><b>Lenke ut til Vipps</b><p>Salgs-MCP-en lager lenken. Kaller agenten pay_order på nytt, blir det ikke en ny betaling. ChatGPT kan i tillegg vise sin egen bekreftelse før verktøy som reserverer og betaler. Da må brukeren si ja tre steder: i samtalen, i ChatGPTs bekreftelse og i Vipps. Når ChatGPT viser bekreftelsen, er ikke avklart.</p>
         <div class="tools"><span class="tool">pay_order</span></div></div>
     </div>
 
@@ -449,7 +449,7 @@
 <section id="reiseagent">
   <div class="wrap">
     <h2>3. Enturs reiseagent</h2>
-    <p class="lead">Reiseagenten finnes i dag og finner reisen til Aulestad. Det første skjermbildet er tatt fra staging 2. november. Der sender «Kjøp denne reisen» brukeren videre til Entur-appen. Skissene etter viser kjøpet gjort i samtalen, med de samme kortene agenten bruker i dag.</p>
+    <p class="lead">Reiseagenten finner reisen til Aulestad allerede i dag. Det første skjermbildet er tatt fra staging 2. november 2026. Der sender «Kjøp denne reisen» brukeren videre til Entur-appen. Skissene etter viser kjøpet gjort i samtalen, med de samme kortene agenten bruker i dag.</p>
   </div>
   <div class="wrap"><div class="strip-scroll"><div class="strip" data-strip="reiseagent">
 
@@ -499,7 +499,7 @@
         </div>
         <div class="compose">Spør reiseagenten</div>
       </div>
-      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av, så bekreftelse</b><p>Ja-et i chatten blir bedt om. Det salgs-MCP-en håndhever, er godkjenningen i Vipps. Agenten spør ikke om mobilnummer.</p>
+      <div class="cap"><span class="n">STEG 3 · RESERVASJON</span><b>Holdt av, så bekreftelse</b><p>Agenten ber om et ja i chatten, men det salgs-MCP-en håndhever, er godkjenningen i Vipps. Agenten spør ikke om mobilnummer.</p>
         <div class="tools"><span class="tool">reserve_offers</span><span class="tool">get_order</span></div></div>
     </div>
 
@@ -574,11 +574,11 @@
 
 <section id="apne">
   <div class="wrap">
-    <h2>Forskjellene, kort</h2>
+    <h2>Forskjellene</h2>
     <ul class="notes">
-      <li><b>Vipps kjøpsassistent</b> er kortest. Brukeren er allerede innlogget i Vipps, og godkjenningen skjer i samme app. Vipps kaller salgs-MCP-en med et eget token, som allerede er satt opp i staging.</li>
+      <li><b>Vipps kjøpsassistent</b> er trolig kortest. Brukeren er allerede innlogget i Vipps, og godkjenningen skjer i samme app. Vipps kaller salgs-MCP-en med et eget token, som allerede er satt opp i staging.</li>
       <li><b>ChatGPT</b> krever innlogging hos Entur før kjøpet og en tur ut til Vipps-appen og tilbake. Innloggingen er planlagt, ikke bygget.</li>
-      <li><b>Reiseagenten</b> har reisesøket i dag. Salget kan legges til med de samme kortene og den samme Vipps-lenken som i ChatGPT.</li>
+      <li><b>Reiseagenten</b> har reisesøket i dag. Salget kan legges til med de samme kortene og den samme Vipps-lenken som i ChatGPT. Uten innlogging skriver brukeren mobilnummeret selv på Vipps-siden.</li>
     </ul>
     <h2 style="margin-top:36px">Åpne spørsmål</h2>
     <ul class="open">

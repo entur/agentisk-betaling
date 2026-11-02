@@ -28,7 +28,8 @@
   .s-title h1{color:#fff;font-size:84px;max-width:15ch}
   .s-title p{font-size:28px;line-height:1.45;color:rgba(255,255,255,.86);max-width:52ch;margin:34px 0 0}
   .s-title .flows{display:flex;gap:14px;margin-top:46px}
-  .s-title .flows span{font-family:"DM Mono",ui-monospace,monospace;font-size:18px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:8px 18px}
+  .s-title .flows a{font-family:"DM Mono",ui-monospace,monospace;font-size:18px;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:8px 18px;cursor:pointer}
+  .s-title .flows a:hover,.s-title .flows a:focus-visible{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7);outline:none}
   .s-title .foot{color:rgba(255,255,255,.55)}
 
   /* kontekst og lister */
@@ -135,7 +136,8 @@
   let s = add('s-title');
   s.appendChild(el('div', 'in',
     `<h1>${txt(hero, 'h1')}</h1><p>${txt(hero, 'p')}</p>
-     <div class="flows">${flows.map(f => `<span>${f.querySelector('h2').textContent.replace(/^\d+\.\s*/, '')}</span>`).join('')}</div>`));
+     <div class="flows"></div>`));
+  const titleFlows = s.querySelector('.flows');
   foot(s, 'Agentisk billettkjøp · tog og buss til Aulestad');
 
   // 2. Reisen og reglene
@@ -154,6 +156,11 @@
     const title = f.querySelector('h2').textContent.trim();
     const name = title.replace(/^\d+\.\s*/, '');
     const shots = [...f.querySelectorAll('.shot')];
+
+    // Knappen på forsiden går til introen for flyten.
+    const link = el('a', '', name);
+    link.href = '#' + (slides.length + 1);
+    titleFlows.appendChild(link);
 
     s = add('s-intro');
     s.appendChild(el('div', 'in',
@@ -222,6 +229,7 @@
   let tx = null;
   addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
   addEventListener('touchend', e => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 40) show(cur + (d < 0 ? 1 : -1)); tx = null; });
+  addEventListener('hashchange', () => show((parseInt(location.hash.slice(1), 10) || 1) - 1));
   show((parseInt(location.hash.slice(1), 10) || 1) - 1);
 })();
 </script>
